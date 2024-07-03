@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.manut.api.ApiApplicationTests" time="6.716" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/test-classes:/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/classes:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.2.3/spring-boot-starter-actuator-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.3/spring-boot-starter-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot/3.2.3/spring-boot-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.3/spring-boot-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.3/spring-boot-starter-logging-3.2.3.jar:/Users/gaspartartari/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/gaspartartari/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/gaspartartari/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/gaspartartari/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/gaspartartari/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar:/Users/gaspartartari/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/gaspartartari/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.2.3/spring-boot-actuator-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-actuator/3.2.3/spring-boot-actuator-3.2.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-observation/1.12.3/micrometer-observation-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-commons/1.12.3/micrometer-commons-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-jakarta9/1.12.3/micrometer-jakarta9-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-core/1.12.3/micrometer-core-1.12.3.jar:/Users/gaspartartari/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/Users/gaspartartari/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/gaspartartari/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.3/spring-boot-starter-data-jpa-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.3/spring-boot-starter-aop-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.3/spring-boot-starter-jdbc-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-jdbc/6.1.4/spring-jdbc-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/Users/gaspartartari/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/gaspartartari/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/gaspartartari/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/gaspartartari/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar:/Users/gaspartartari/.m2/repository/org/eclipse/angus/angus-activation/2.0.1/angus-activation-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar:/Users/gaspartartari/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/gaspartartari/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/gaspartartari/.m2/repository/org/springframework/data/spring-data-jpa/3.2.3/spring-data-jpa-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/data/spring-data-commons/3.2.3/spring-data-commons-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-orm/6.1.4/spring-orm-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-context/6.1.4/spring-context-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-tx/6.1.4/spring-tx-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-beans/6.1.4/spring-beans-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-aspects/6.1.4/spring-aspects-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.3/spring-boot-starter-web-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.3/spring-boot-starter-json-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.3/spring-boot-starter-tomcat-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.19/tomcat-embed-core-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.19/tomcat-embed-el-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.19/tomcat-embed-websocket-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-web/6.1.4/spring-web-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-webmvc/6.1.4/spring-webmvc-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-expression/6.1.4/spring-expression-6.1.4.jar:/Users/gaspartartari/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.3/spring-boot-starter-test-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-test/3.2.3/spring-boot-test-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.3/spring-boot-test-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/gaspartartari/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/Users/gaspartartari/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/Users/gaspartartari/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/Users/gaspartartari/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/Users/gaspartartari/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/Users/gaspartartari/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/gaspartartari/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/gaspartartari/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/gaspartartari/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/gaspartartari/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/gaspartartari/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/gaspartartari/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/gaspartartari/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/gaspartartari/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/gaspartartari/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/gaspartartari/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-core/6.1.4/spring-core-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-jcl/6.1.4/spring-jcl-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-test/6.1.4/spring-test-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/gaspartartari/.m2/repository/org/modelmapper/modelmapper/2.4.5/modelmapper-2.4.5.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.17.0/jackson-datatype-jsr310-2.17.0.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.3/spring-boot-starter-security-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-aop/6.1.4/spring-aop-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-config/6.2.2/spring-security-config-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-web/6.2.2/spring-security-web-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-test/6.2.2/spring-security-test-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-core/6.2.2/spring-security-core-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-crypto/6.2.2/spring-security-crypto-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-authorization-server/1.2.2/spring-security-oauth2-authorization-server-1.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.2/spring-security-oauth2-core-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.2/spring-security-oauth2-jose-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-resource-server/6.2.2/spring-security-oauth2-resource-server-6.2.2.jar:/Users/gaspartartari/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.37.3/nimbus-jose-jwt-9.37.3.jar:/Users/gaspartartari/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-resource-server/3.2.3/spring-boot-starter-oauth2-resource-server-3.2.3.jar:/Users/gaspartartari/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/gaspartartari/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.0.CR2/hibernate-validator-8.0.0.CR2.jar:/Users/gaspartartari/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="LOG_PATH" value="."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/Sao_Paulo"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="user.country" value="BR"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/21.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/surefire/surefirebooter-20240514202818274_3.jar /Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/surefire 2024-05-14T20-28-18_222-jvmRun1 surefire-20240514202818274_1tmp surefire_0-20240514202818274_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/test-classes:/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/classes:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.2.3/spring-boot-starter-actuator-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.3/spring-boot-starter-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot/3.2.3/spring-boot-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.3/spring-boot-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.3/spring-boot-starter-logging-3.2.3.jar:/Users/gaspartartari/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/gaspartartari/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/Users/gaspartartari/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/gaspartartari/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/gaspartartari/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar:/Users/gaspartartari/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/gaspartartari/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.2.3/spring-boot-actuator-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-actuator/3.2.3/spring-boot-actuator-3.2.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-observation/1.12.3/micrometer-observation-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-commons/1.12.3/micrometer-commons-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-jakarta9/1.12.3/micrometer-jakarta9-1.12.3.jar:/Users/gaspartartari/.m2/repository/io/micrometer/micrometer-core/1.12.3/micrometer-core-1.12.3.jar:/Users/gaspartartari/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/Users/gaspartartari/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/gaspartartari/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.3/spring-boot-starter-data-jpa-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.3/spring-boot-starter-aop-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.3/spring-boot-starter-jdbc-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-jdbc/6.1.4/spring-jdbc-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/Users/gaspartartari/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/gaspartartari/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/gaspartartari/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/gaspartartari/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar:/Users/gaspartartari/.m2/repository/org/eclipse/angus/angus-activation/2.0.1/angus-activation-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar:/Users/gaspartartari/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/gaspartartari/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/gaspartartari/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/gaspartartari/.m2/repository/org/springframework/data/spring-data-jpa/3.2.3/spring-data-jpa-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/data/spring-data-commons/3.2.3/spring-data-commons-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-orm/6.1.4/spring-orm-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-context/6.1.4/spring-context-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-tx/6.1.4/spring-tx-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-beans/6.1.4/spring-beans-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-aspects/6.1.4/spring-aspects-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.3/spring-boot-starter-web-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.3/spring-boot-starter-json-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.3/spring-boot-starter-tomcat-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.19/tomcat-embed-core-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.19/tomcat-embed-el-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.19/tomcat-embed-websocket-10.1.19.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-web/6.1.4/spring-web-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-webmvc/6.1.4/spring-webmvc-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-expression/6.1.4/spring-expression-6.1.4.jar:/Users/gaspartartari/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.3/spring-boot-starter-test-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-test/3.2.3/spring-boot-test-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.3/spring-boot-test-autoconfigure-3.2.3.jar:/Users/gaspartartari/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/gaspartartari/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/Users/gaspartartari/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/Users/gaspartartari/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/Users/gaspartartari/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/Users/gaspartartari/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/Users/gaspartartari/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/gaspartartari/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/gaspartartari/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/gaspartartari/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/gaspartartari/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/gaspartartari/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/gaspartartari/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/gaspartartari/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/gaspartartari/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/gaspartartari/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/gaspartartari/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/gaspartartari/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-core/6.1.4/spring-core-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-jcl/6.1.4/spring-jcl-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-test/6.1.4/spring-test-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/gaspartartari/.m2/repository/org/modelmapper/modelmapper/2.4.5/modelmapper-2.4.5.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.17.0/jackson-datatype-jsr310-2.17.0.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.3/spring-boot-starter-security-3.2.3.jar:/Users/gaspartartari/.m2/repository/org/springframework/spring-aop/6.1.4/spring-aop-6.1.4.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-config/6.2.2/spring-security-config-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-web/6.2.2/spring-security-web-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-test/6.2.2/spring-security-test-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-core/6.2.2/spring-security-core-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-crypto/6.2.2/spring-security-crypto-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-authorization-server/1.2.2/spring-security-oauth2-authorization-server-1.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.2/spring-security-oauth2-core-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.2/spring-security-oauth2-jose-6.2.2.jar:/Users/gaspartartari/.m2/repository/org/springframework/security/spring-security-oauth2-resource-server/6.2.2/spring-security-oauth2-resource-server-6.2.2.jar:/Users/gaspartartari/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.37.3/nimbus-jose-jwt-9.37.3.jar:/Users/gaspartartari/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/Users/gaspartartari/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-resource-server/3.2.3/spring-boot-starter-oauth2-resource-server-3.2.3.jar:/Users/gaspartartari/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/gaspartartari/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.0.CR2/hibernate-validator-8.0.0.CR2.jar:/Users/gaspartartari/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/gaspartartari/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/gaspartartari"/>
+    <property name="user.language" value="pt"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-10-17"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/21.0.1/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api/target/surefire/surefirebooter-20240514202818274_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="21.0.1"/>
+    <property name="user.name" value="gaspartartari"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="14.3.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="LOG_FILE" value="./spring.log"/>
+    <property name="localRepository" value="/Users/gaspartartari/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/q8/bjl6_dps1ls5wqh9ncg9_jwr0000gn/T/"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="21.0.1"/>
+    <property name="user.dir" value="/Users/gaspartartari/Programming/Code/ProjetoCTA/api/api"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="38481"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/gaspartartari/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="21.0.1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="contextLoads" classname="com.manut.api.ApiApplicationTests" time="0.404">
+    <system-out><![CDATA[20:28:19.108 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.manut.api.ApiApplicationTests]: ApiApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:28:19.192 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.manut.api.ApiApplication for test class com.manut.api.ApiApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2024-05-14T20:28:19.522-03:00  INFO 38481 --- [           main] com.manut.api.ApiApplicationTests        : Starting ApiApplicationTests using Java 21.0.1 with PID 38481 (started by gaspartartari in /Users/gaspartartari/Programming/Code/ProjetoCTA/api/api)
+2024-05-14T20:28:19.523-03:00  INFO 38481 --- [           main] com.manut.api.ApiApplicationTests        : The following 1 profile is active: "test"
+2024-05-14T20:28:20.257-03:00  INFO 38481 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-14T20:28:20.314-03:00  INFO 38481 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 18 JPA repository interfaces.
+2024-05-14T20:28:20.886-03:00  INFO 38481 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-14T20:28:21.139-03:00  INFO 38481 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-05-14T20:28:21.140-03:00  INFO 38481 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-14T20:28:21.180-03:00  INFO 38481 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-14T20:28:21.228-03:00  INFO 38481 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-14T20:28:21.257-03:00  INFO 38481 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-14T20:28:21.430-03:00  INFO 38481 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-14T20:28:21.468-03:00  WARN 38481 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-14T20:28:21.879-03:00  WARN 38481 --- [           main] org.hibernate.mapping.RootClass          : HHH000038: Composite-id class does not override equals(): com.manut.api.entities.PlanVehiclePK
+2024-05-14T20:28:21.879-03:00  WARN 38481 --- [           main] org.hibernate.mapping.RootClass          : HHH000039: Composite-id class does not override hashCode(): com.manut.api.entities.PlanVehiclePK
+2024-05-14T20:28:22.627-03:00  INFO 38481 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    drop table if exists tb_attendant cascade 
+Hibernate: 
+    drop table if exists tb_client cascade 
+Hibernate: 
+    drop table if exists tb_company cascade 
+Hibernate: 
+    drop table if exists tb_driver cascade 
+Hibernate: 
+    drop table if exists tb_fuel cascade 
+Hibernate: 
+    drop table if exists tb_fueling cascade 
+Hibernate: 
+    drop table if exists tb_plan cascade 
+Hibernate: 
+    drop table if exists tb_plan_task cascade 
+Hibernate: 
+    drop table if exists tb_plan_vehicle cascade 
+Hibernate: 
+    drop table if exists tb_product cascade 
+Hibernate: 
+    drop table if exists tb_pump cascade 
+Hibernate: 
+    drop table if exists tb_role cascade 
+Hibernate: 
+    drop table if exists tb_service_order cascade 
+Hibernate: 
+    drop table if exists tb_service_task cascade 
+Hibernate: 
+    drop table if exists tb_station cascade 
+Hibernate: 
+    drop table if exists tb_tank cascade 
+Hibernate: 
+    drop table if exists tb_task cascade 
+Hibernate: 
+    drop table if exists tb_user cascade 
+Hibernate: 
+    drop table if exists tb_user_role cascade 
+Hibernate: 
+    drop table if exists tb_vehicle cascade 
+Hibernate: 
+    create table tb_attendant (
+        active boolean not null,
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        code varchar(255),
+        cpf varchar(255),
+        name varchar(255),
+        rfid varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_client (
+        id bigint generated by default as identity,
+        client_name varchar(255),
+        token varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_company (
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        branch varchar(255),
+        cnpj varchar(255),
+        code varchar(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_driver (
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        cnh varchar(255),
+        code varchar(255),
+        cpf varchar(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_fuel (
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        code varchar(255),
+        description varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_fueling (
+        cost numeric(38,2),
+        distance integer,
+        end_date date,
+        end_time time(6),
+        final_measure numeric(38,2),
+        hourmeter numeric(38,2),
+        kilometer_per_liter_average numeric(38,2),
+        liter_per_hour_average numeric(38,2),
+        odometer integer,
+        start_date date,
+        start_time time(6),
+        volume numeric(38,2),
+        worked_hours numeric(38,2),
+        attendant_id bigint,
+        client_id bigint,
+        company_id bigint,
+        driver_id bigint,
+        end_date_time timestamp(6) with time zone,
+        external_id bigint,
+        fuel_id bigint,
+        id bigint generated by default as identity,
+        pump_id bigint,
+        start_date_time timestamp(6) with time zone,
+        station_id bigint,
+        tank_id bigint,
+        vehicle_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_plan (
+        is_active boolean,
+        is_recurrent boolean,
+        recurrence_interval integer,
+        recurrence_type tinyint check (recurrence_type between 0 and 2),
+        tolerance integer,
+        client_id bigint,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6),
+        created_by varbinary(255),
+        last_modified_by varbinary(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_plan_task (
+        plan_id bigint not null,
+        task_id bigint not null,
+        primary key (plan_id, task_id)
+    )
+Hibernate: 
+    create table tb_plan_vehicle (
+        last_service_date date,
+        last_service_hourmeter numeric(38,2),
+        last_service_odometer integer,
+        next_service_date date,
+        next_service_hourmeter numeric(38,2),
+        next_service_odometer integer,
+        status tinyint check (status between 0 and 3),
+        plan_id bigint not null,
+        vehicle_id bigint not null,
+        primary key (plan_id, vehicle_id)
+    )
+Hibernate: 
+    create table tb_product (
+        price float(53),
+        client_id bigint,
+        id bigint generated by default as identity,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_pump (
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        code varchar(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_role (
+        id bigint generated by default as identity,
+        authority varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_service_order (
+        conclusion_counter integer,
+        conclusion_date date,
+        status tinyint check (status between 0 and 2),
+        client_id bigint,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6),
+        plan_id bigint,
+        vehicle_id bigint,
+        created_by varbinary(255),
+        last_modified_by varbinary(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_service_task (
+        is_completed boolean not null,
+        client_id bigint,
+        id bigint generated by default as identity,
+        service_id bigint,
+        task_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_station (
+        commercial_station boolean not null,
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        cnpj varchar(255),
+        code varchar(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_tank (
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        code varchar(255),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_task (
+        executor tinyint check (executor between 0 and 1),
+        client_id bigint,
+        id bigint generated by default as identity,
+        product_id bigint,
+        component varchar(255),
+        name varchar(255),
+        observation varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_user (
+        client_id bigint,
+        id bigint generated by default as identity,
+        email varchar(255) unique,
+        first_name varchar(255),
+        last_name varchar(255),
+        password varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table tb_user_role (
+        role_id bigint not null,
+        user_id bigint not null,
+        primary key (role_id, user_id)
+    )
+Hibernate: 
+    create table tb_vehicle (
+        bypass boolean not null,
+        current_hourmeter numeric(38,2),
+        current_odometer integer,
+        last_fueling_date date,
+        last_fueling_time time(6),
+        client_id bigint,
+        external_id bigint,
+        id bigint generated by default as identity,
+        category varchar(255),
+        code varchar(255),
+        fleet varchar(255),
+        license_plate varchar(255),
+        model varchar(255),
+        name varchar(255),
+        rfid varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists tb_attendant 
+       add constraint FKbkhsafpc6yt03qu3asrm7gxre 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_company 
+       add constraint FK159poo9hs21fom2aygwcaagjt 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_driver 
+       add constraint FKeio97gjicxusi459qrfwovgrk 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_fuel 
+       add constraint FKd4vcf8gnoyf87qjys5xrx6wjd 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKmsb3jpno4knbtalsq5f17t0j1 
+       foreign key (attendant_id) 
+       references tb_attendant
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FK921tidyb9vphhyt1w7rdbnw7n 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKseia48ghb6a9imnj5ocqja8rf 
+       foreign key (company_id) 
+       references tb_company
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FK82w98vkyi7b8en6aqiw7iagfd 
+       foreign key (driver_id) 
+       references tb_driver
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FK94i9kp12t9e8ij321akvlvyra 
+       foreign key (fuel_id) 
+       references tb_fuel
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKoihtt37csynqof2suu65r73e0 
+       foreign key (pump_id) 
+       references tb_pump
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKe0lw2ti95fb84qi0ohih500hx 
+       foreign key (station_id) 
+       references tb_station
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKnbm6mgfbev1m16ukpprv2v6m7 
+       foreign key (tank_id) 
+       references tb_tank
+Hibernate: 
+    alter table if exists tb_fueling 
+       add constraint FKfy7khfag6yj8w4s1l92jmtkjv 
+       foreign key (vehicle_id) 
+       references tb_vehicle
+Hibernate: 
+    alter table if exists tb_plan 
+       add constraint FKjvbi5wjde6uhbn4u4d87xsijq 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_plan_task 
+       add constraint FK19rner46l1ra7yt767x6ku2ma 
+       foreign key (task_id) 
+       references tb_task
+Hibernate: 
+    alter table if exists tb_plan_task 
+       add constraint FKq78ifp7red9orgyoq6keygcc9 
+       foreign key (plan_id) 
+       references tb_plan
+Hibernate: 
+    alter table if exists tb_plan_vehicle 
+       add constraint FKpapxpvdvlqvle2i1guwb8jrxj 
+       foreign key (vehicle_id) 
+       references tb_vehicle
+Hibernate: 
+    alter table if exists tb_plan_vehicle 
+       add constraint FKmay16ivdx1hxg4ijq3hfqj0vi 
+       foreign key (plan_id) 
+       references tb_plan
+Hibernate: 
+    alter table if exists tb_product 
+       add constraint FKcx2s6rj91v0pkwypgg8ldldj8 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_pump 
+       add constraint FK9upudebqiq1oma9u9ggby5ynh 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_service_order 
+       add constraint FK1fkjk6nljrc5n1uog8e2hevlw 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_service_order 
+       add constraint FK8wnt2g8nckdnyow3y4tyaje1g 
+       foreign key (plan_id) 
+       references tb_plan
+Hibernate: 
+    alter table if exists tb_service_order 
+       add constraint FKs050bdgl55ojhgww1brl21njh 
+       foreign key (vehicle_id) 
+       references tb_vehicle
+Hibernate: 
+    alter table if exists tb_service_task 
+       add constraint FKf72l8uasvwxyhm07x0nvh92vs 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_service_task 
+       add constraint FKgacospghhf0k733cv4ig2rt2s 
+       foreign key (service_id) 
+       references tb_service_order
+Hibernate: 
+    alter table if exists tb_service_task 
+       add constraint FK26g6nyssy8bggl98q7r6uv3kp 
+       foreign key (task_id) 
+       references tb_task
+Hibernate: 
+    alter table if exists tb_station 
+       add constraint FKtpaxqmrmddheve55dax8abag5 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_tank 
+       add constraint FKjacog906l473h3j3eh4i6evdf 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_task 
+       add constraint FKpcc9ugqg23f918opdf06yck0c 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_task 
+       add constraint FK9wpt6f5h66i4xftkpk591cgh7 
+       foreign key (product_id) 
+       references tb_product
+Hibernate: 
+    alter table if exists tb_user 
+       add constraint FKcl6t9w60u4gaith7cvjvkyo9 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: 
+    alter table if exists tb_user_role 
+       add constraint FKea2ootw6b6bb0xt3ptl28bymv 
+       foreign key (role_id) 
+       references tb_role
+Hibernate: 
+    alter table if exists tb_user_role 
+       add constraint FK7vn3h53d0tqdimm8cp45gc0kl 
+       foreign key (user_id) 
+       references tb_user
+Hibernate: 
+    alter table if exists tb_vehicle 
+       add constraint FKf2dkw20xquaxmh50sjcyqwmmb 
+       foreign key (client_id) 
+       references tb_client
+Hibernate: INSERT INTO tb_client (client_name, token) VALUES ('Cliente teste', '9BZaUFXFwE')
+Hibernate: INSERT INTO tb_client (client_name, token) VALUES ('Cliente tetste 2', '9BZaUFXFwE')
+Hibernate: INSERT INTO tb_station (external_id, name, code, commercial_station, cnpj, client_id) VALUES (400, 'Posto Central', 'POS001', true, '12.345.678/0001-99', 1)
+Hibernate: INSERT INTO tb_driver (external_id, name, code, client_id) VALUES (200, 'João Silva', 'MOT001', 1)
+Hibernate: INSERT INTO tb_attendant (external_id, name, code, active, client_id) VALUES (300, 'Carlos Pereira', 'AT001', true, 1)
+Hibernate: INSERT INTO tb_tank (external_id, code, name, client_id) VALUES (500, 'TAN001', 'Tanque 01', 1)
+Hibernate: INSERT INTO tb_pump (external_id, code, name, client_id) VALUES (600, 'BOM001', 'Bomba 01', 1)
+Hibernate: INSERT INTO tb_fuel (external_id, description, code, client_id) VALUES (1, 'Diesel S-10', 'COMB', 1)
+Hibernate: INSERT INTO tb_product (name, price, client_id) VALUES ('Óleo ultraflex', 10.0, 1)
+Hibernate: INSERT INTO tb_product (name, price, client_id) VALUES ('Filtro ultraflex', 15.0, 1)
+Hibernate: INSERT INTO tb_product (name, price, client_id) VALUES ('Disco de freio XX', 1200.0, 1)
+Hibernate: INSERT INTO tb_task (name, product_id, component, client_id) VALUES ('trocar o óleo do motor', 1, 'motor', 1)
+Hibernate: INSERT INTO tb_task (name, product_id, component, client_id) VALUES ('trocar filtro de óleo do motor', 2, 'motor', 1)
+Hibernate: INSERT INTO tb_task (name, component, client_id) VALUES ('trocar pastilhas freio', 'freio', 1)
+Hibernate: INSERT INTO tb_task (name, component, client_id) VALUES ('Limpar carburador', 'motor', 2)
+Hibernate: INSERT INTO tb_task (name, component, client_id) VALUES ('Revisar Motor', 'motor', 2)
+Hibernate: INSERT INTO tb_task (name, product_id, component, client_id) VALUES ('Trocar disco de freio', 3, 'motor', 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1000, 'VH001', 'Truck A1', 'PLT1234', 'Fleet A', false, 'Heavy', 'VOLVO TRUCK S3', 'RFID123456A', 25000, 15000, 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1001, 'VH002', 'Truck A2', 'PLT1235', 'Fleet A', false, 'Medium', 'VOLVO TRUCK S3', 'RFID123456B', 31000, 1800, 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1002, 'VH003', 'Truck A3', 'PLT1236', 'Fleet B', false, 'Light', 'VOLVO TRUCK S3', 'RFID123456C', 24400, 800, 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1003, 'VH004', 'Truck A4', 'PLT1237', 'Fleet C', true, 'Special', 'VOLVO TRUCK S3', 'RFID123456D', 32000, 1000, 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1004, 'VH005', 'Truck A5', 'PLT1238', 'Fleet D', false, 'Heavy', 'VOLVO TRUCK S3', 'RFID123456E', 22000, 1300, 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, code, name, license_plate, fleet, bypass, category, model, rfid, current_odometer, current_hourmeter, client_id) VALUES (1005, 'VH006', 'Truck A6', 'HLN5236', 'Fleet F', false, 'Heavy', 'VOLVO TRUCK S3', 'RFID123456E', 22000, 1300, 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, rfid, current_odometer,last_fueling_date, last_fueling_time, client_id) VALUES (55761, '9000', '9000', 'ABC9000', false, '0AC41507', 1,'2001-07-12', '00:30:00', 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet,license_plate, bypass, current_odometer,last_fueling_date, last_fueling_time, client_id) VALUES (55763, '9002','9002', 'ABC9002', false, 50, '2001-07-12', '00:30:00',1)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, current_odometer, last_fueling_date, last_fueling_time, client_id) VALUES (230610, 'não identificado','999999', 'ABC9999', true, 0,'2001-07-12', '00:30:00', 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, current_odometer, last_fueling_date, last_fueling_time, client_id) VALUES (289367, '3000','3000', 'ABC3000', false, 3500,'2001-07-12', '00:30:00', 1)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, rfid, current_odometer, last_fueling_date, last_fueling_time, client_id) VALUES (55761, '9000', '9000', 'ABC9000', false, '0AC41507', 1,'2001-07-12', '00:30:00', 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet,license_plate, bypass, current_odometer,last_fueling_date, last_fueling_time, client_id) VALUES (55763, '9002','9002', 'ABC9002', false, 50,'2001-07-12', '00:30:00', 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, current_odometer, last_fueling_date, last_fueling_time, client_id) VALUES (230610, 'não identificado','999999', 'ABC9999', true, 0,'2001-07-12', '00:30:00', 2)
+Hibernate: INSERT INTO tb_vehicle (external_id, name, fleet, license_plate, bypass, current_odometer,last_fueling_date, last_fueling_time, client_id) VALUES (289367, '3000','3000', 'ABC3000', false, 3500,'2001-07-12', '00:30:00',2)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES ('Quarterly Inspection VOLVO S3', '2022-07-25', 90, 2, 10, true, true, 1)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES  ('Annual Maintenance VOLVO S3', '2022-07-20', 365, 2, 15, true, true, 2)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES  ('250KM VOLVO S3', '2022-07-25', 1500, 0, 500, true, true, 1)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES  ('1000H VOLVO S3', '2022-07-20', 500, 0, 50, true, true, 2)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES  ('Monthly Safety Check VOLVO S3', '2022-07-25', 30, 2, 5, true, true, 1)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES ('10000H VOLVO S3', '2022-07-25', 10000, 1, 500, true, true, 1)
+Hibernate: INSERT INTO tb_plan (name, created_date, recurrence_interval, recurrence_type, tolerance, is_active, is_recurrent, client_id) VALUES ('1000H VOLVO S3', '2022-07-25', 1000, 1, 200, true, true, 1)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES (3, 1, 24000, 25500, 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES (3, 2, 29500, 31000, 1)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES (4, 3, 24000, 24500, 2)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES (4, 4, 29500, 31000, 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_hourmeter, next_service_hourmeter, status) VALUES ( 6, 1, 10800, 20800, 3)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_hourmeter, next_service_hourmeter, status) VALUES ( 7, 2, 1000, 2000, 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_date, next_service_date, status) VALUES ( 5, 1, '2024-03-25', '2024-04-24', 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_date, next_service_date, status) VALUES ( 5, 2, '2024-04-25', '2024-05-24', 3)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_date, next_service_date, status) VALUES ( 5, 6, '2024-04-05', '2024-05-04', 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES ( 3, 7, 4, 1504, 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES ( 3, 8, 50, 1550, 0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_date, next_service_date, status) VALUES ( 5, 9, '2024-04-05', '2024-05-05',0)
+Hibernate: INSERT INTO tb_plan_vehicle (plan_id, vehicle_id, last_service_odometer, next_service_odometer, status) VALUES ( 3, 10, 2500, 4000, 0)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (1, 1)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (1, 2)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (1, 3)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (3, 3)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (3, 1)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (2, 4)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (2, 5)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (2, 6)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (4, 4)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (4, 5)
+Hibernate: INSERT INTO tb_plan_task (plan_id, task_id) VALUES (4, 6)
+Hibernate: INSERT INTO tb_service_order (created_date, conclusion_date, vehicle_id, plan_id, status, client_id) VALUES ('2024-03-29', '2024-03-29', 1, 1, 0, 1 )
+Hibernate: INSERT INTO tb_service_order (created_date, conclusion_counter, vehicle_id, plan_id, status, client_id) VALUES ('2024-03-29', 20000, 1, 2, 1, 1 )
+Hibernate: INSERT INTO tb_service_order (created_date, conclusion_counter, vehicle_id, plan_id, status, client_id) VALUES ('2024-03-29', 10800, 1, 6, 0, 1 )
+Hibernate: INSERT INTO tb_service_task  (task_id, service_id, is_completed, client_id ) VALUES (1, 1, true, 1)
+Hibernate: INSERT INTO tb_service_task  (task_id, service_id, is_completed, client_id ) VALUES (2, 1, true, 1)
+Hibernate: INSERT INTO tb_service_task  (task_id, service_id, is_completed, client_id ) VALUES (3, 1, true, 1)
+Hibernate: INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN')
+Hibernate: INSERT INTO tb_user(first_name, last_name, email, password, client_id) VALUES ('Gaspar', 'Tartari', 'gaspar@gmail.com', '$2a$10$k0qK5Rnu8mGN09KrCRNRHOaI3VkvenhNnt7iXPERNumfDY/uTinoi', 1)
+Hibernate: INSERT INTO tb_user(first_name, last_name, email, password, client_id) VALUES ('Joao', 'Pedro', 'joao@gmail.com', '$2a$10$k0qK5Rnu8mGN09KrCRNRHOaI3VkvenhNnt7iXPERNumfDY/uTinoi', 2)
+Hibernate: INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1)
+Hibernate: INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1)
+2024-05-14T20:28:22.750-03:00  INFO 38481 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-14T20:28:23.030-03:00  INFO 38481 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-14T20:28:24.485-03:00  INFO 38481 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer$$Lambda/0x000000d001aa0ce0@3b4cd78c with [org.springframework.security.web.session.DisableEncodeUrlFilter@625b4c5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@520b57cc, org.springframework.security.web.context.SecurityContextHolderFilter@1bae9b5b, org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.AuthorizationServerContextFilter@492972a0, org.springframework.security.web.header.HeaderWriterFilter@78d02dbd, org.springframework.security.web.csrf.CsrfFilter@fe54627, org.springframework.security.web.authentication.logout.LogoutFilter@252b5b13, org.springframework.security.oauth2.server.authorization.web.OAuth2AuthorizationServerMetadataEndpointFilter@f640a06, org.springframework.security.oauth2.server.authorization.web.OAuth2AuthorizationEndpointFilter@18d80804, org.springframework.security.oauth2.server.authorization.web.OAuth2DeviceVerificationEndpointFilter@38e6ab22, org.springframework.security.oauth2.server.authorization.web.NimbusJwkSetEndpointFilter@223904ae, org.springframework.security.oauth2.server.authorization.web.OAuth2ClientAuthenticationFilter@674b5cbc, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@6724cba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@528f5a50, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3dc52b8a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@75b190f, org.springframework.security.web.access.ExceptionTranslationFilter@3f85a1a6, org.springframework.security.web.access.intercept.AuthorizationFilter@e00498a, org.springframework.security.oauth2.server.authorization.web.OAuth2TokenEndpointFilter@3b574164, org.springframework.security.oauth2.server.authorization.web.OAuth2TokenIntrospectionEndpointFilter@3dfa4fa2, org.springframework.security.oauth2.server.authorization.web.OAuth2TokenRevocationEndpointFilter@1920efec, org.springframework.security.oauth2.server.authorization.web.OAuth2DeviceAuthorizationEndpointFilter@3fb90780]
+2024-05-14T20:28:24.741-03:00  INFO 38481 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-05-14T20:28:24.772-03:00  INFO 38481 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure org.springframework.boot.autoconfigure.security.servlet.PathRequest$H2ConsoleRequestMatcher@1b4a26a3 with [org.springframework.security.web.session.DisableEncodeUrlFilter@44af7771, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@453db8e3, org.springframework.security.web.context.SecurityContextHolderFilter@24e8954b, org.springframework.security.web.header.HeaderWriterFilter@2546ec60, org.springframework.security.web.authentication.logout.LogoutFilter@38bcf0d3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@73eb0060, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7abb0af2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@272a5bc6, org.springframework.security.web.access.ExceptionTranslationFilter@3d632b96]
+2024-05-14T20:28:24.783-03:00  INFO 38481 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4e08a657, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@55eddd99, org.springframework.security.web.context.SecurityContextHolderFilter@68aa6165, org.springframework.security.web.header.HeaderWriterFilter@7e444c6, org.springframework.web.filter.CorsFilter@60fc84b2, org.springframework.security.web.authentication.logout.LogoutFilter@1220eb72, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@43710cec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@100eefe8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@cddb150, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b618a64, org.springframework.security.web.access.ExceptionTranslationFilter@2ad6c32a, org.springframework.security.web.access.intercept.AuthorizationFilter@789e8736]
+2024-05-14T20:28:25.124-03:00  INFO 38481 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-05-14T20:28:25.208-03:00  INFO 38481 --- [           main] com.manut.api.ApiApplicationTests        : Started ApiApplicationTests in 5.912 seconds (process running for 6.881)
+]]></system-out>
+    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/gaspartartari/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+</testsuite>

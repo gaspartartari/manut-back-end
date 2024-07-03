@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimeZoneTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api</a> &gt; <span class="el_source">TimeZoneTest.java</span></div><h1>TimeZoneTest.java</h1><pre class="source lang-java linenums">package com.manut.api;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Set;
+import java.time.LocalDateTime;
+
+<span class="nc" id="L8">public class TimeZoneTest {</span>
+    public static void main(String[] args) {
+<span class="nc" id="L10">        ZoneId zoneIdSP = ZoneId.of(&quot;America/Sao_Paulo&quot;);</span>
+<span class="nc" id="L11">        LocalDateTime ldt = LocalDateTime.now();</span>
+<span class="nc" id="L12">        ZonedDateTime zdt = ZonedDateTime.of(ldt, zoneIdSP);</span>
+<span class="nc" id="L13">        ZonedDateTime utc = zdt.withZoneSameInstant(ZoneId.of(&quot;UTC&quot;));</span>
+
+<span class="nc" id="L15">        System.out.println(&quot;Local Date-Time: &quot; + ldt);</span>
+<span class="nc" id="L16">        System.out.println(&quot;Zoned Date-Time in Sao Paulo: &quot; + zdt);</span>
+<span class="nc" id="L17">        System.out.println(&quot;Current Offset in Sao Paulo: &quot; + zdt.getOffset());</span>
+<span class="nc" id="L18">        System.out.println(&quot;Current Offset in UTC: &quot; + utc);</span>
+
+<span class="nc" id="L20">        Set&lt;String&gt; zones = ZoneId.getAvailableZoneIds();</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        for (String z : zones){</span>
+<span class="nc" id="L22">            System.out.println(z);</span>
+<span class="nc" id="L23">        }</span>
+<span class="nc" id="L24">    }</span>
+
+   
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

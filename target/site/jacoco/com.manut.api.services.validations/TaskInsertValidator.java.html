@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaskInsertValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services.validations</a> &gt; <span class="el_source">TaskInsertValidator.java</span></div><h1>TaskInsertValidator.java</h1><pre class="source lang-java linenums">package com.manut.api.services.validations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.manut.api.dto.MapTasksDTO;
+import com.manut.api.dto.exceptions.FieldMessage;
+import com.manut.api.entities.Task;
+import com.manut.api.repositories.TaskRepository;
+import com.manut.api.services.AuthService;
+
+<span class="nc" id="L18">public class TaskInsertValidator implements ConstraintValidator&lt;TaskInsertValid, MapTasksDTO&gt; {</span>
+
+	@Autowired
+	private TaskRepository taskRepository;
+
+	@Autowired
+	private AuthService authService;
+
+	@Override
+	public void initialize(TaskInsertValid ann) {
+<span class="nc" id="L28">	}</span>
+
+	@Override
+	public boolean isValid(MapTasksDTO dto, ConstraintValidatorContext context) {
+
+<span class="nc" id="L33">		List&lt;FieldMessage&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L34">		Long clientId = authService.getClientId();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">		for(Long id : dto.getTasksId()){</span>
+<span class="nc" id="L36">			Optional&lt;Task&gt; task = taskRepository.searchById(id, clientId);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">			if(!task.isPresent())</span>
+<span class="nc" id="L38">				list.add(new FieldMessage(&quot;id&quot;, &quot;Task id &quot; + id + &quot; not found&quot;));</span>
+<span class="nc" id="L39">		}</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		for (FieldMessage e : list) {</span>
+<span class="nc" id="L42">			context.disableDefaultConstraintViolation();</span>
+<span class="nc" id="L43">			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())</span>
+<span class="nc" id="L44">					.addConstraintViolation();</span>
+<span class="nc" id="L45">		}</span>
+<span class="nc" id="L46">		return list.isEmpty();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServiceOrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">ServiceOrderService.java</span></div><h1>ServiceOrderService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.manut.api.dto.CreateServiceOrderDTO;
+import com.manut.api.dto.FinishServiceOrderDTO;
+import com.manut.api.dto.ServiceOrderDTO;
+import com.manut.api.dto.TaskListDTO;
+import com.manut.api.entities.Client;
+import com.manut.api.entities.ServiceOrder;
+import com.manut.api.entities.ServiceTask;
+import com.manut.api.entities.Task;
+import com.manut.api.enums.OrderStatus;
+import com.manut.api.repositories.ClientRepository;
+import com.manut.api.repositories.ServiceOrderRepository;
+import com.manut.api.repositories.ServiceTaskRepository;
+import com.manut.api.repositories.TaskRepository;
+import com.manut.api.repositories.PlanRepository;
+import com.manut.api.repositories.VehicleRepository;
+import com.manut.api.services.exceptions.DatabaseException;
+import com.manut.api.services.exceptions.ResourceNotFoundException;
+
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+<span class="fc" id="L37">public class ServiceOrderService {</span>
+
+    @Autowired
+    private ServiceOrderRepository serviceOrdeRepository;
+
+    @Autowired
+    private PlanRepository planRepository;
+
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private ServiceTaskRepository serviceTaskRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private AuthService authService;
+
+    @Transactional
+    public ServiceOrderDTO createServiceOrder(CreateServiceOrderDTO insertDTO) {
+<span class="nc" id="L62">        Long clientId = authService.getClientId();</span>
+<span class="nc" id="L63">        Client client = clientRepository.getReferenceById(clientId);</span>
+<span class="nc" id="L64">        ServiceOrder entity = new ServiceOrder();</span>
+<span class="nc" id="L65">        entity.setClient(client);</span>
+<span class="nc" id="L66">        entity = serviceOrdeRepository.saveAndFlush(entity);</span>
+<span class="nc" id="L67">        populateServiceOrderEntityFromDTO(entity, insertDTO, clientId, entity.getId());</span>
+<span class="nc" id="L68">        entity = serviceOrdeRepository.save(entity);</span>
+<span class="nc" id="L69">        return new ServiceOrderDTO(entity);</span>
+    }
+
+    @Transactional
+    public ServiceOrderDTO insertTask(TaskListDTO taskList, Long serviceOrderId) {
+
+<span class="nc" id="L75">        ServiceOrder entity = serviceOrdeRepository.findById(serviceOrderId)</span>
+<span class="nc" id="L76">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Order &quot; + serviceOrderId + &quot; not found&quot;));</span>
+
+<span class="nc" id="L78">        authService.validateClient(entity.getClient().getId());</span>
+<span class="nc" id="L79">        List&lt;Long&gt; entityTaskIds = entity.getServiceTasks().stream().map(x -&gt; x.getTask().getId())</span>
+<span class="nc" id="L80">                .collect(Collectors.toList());</span>
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (Long id : taskList.getTaskList())</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (entityTaskIds.contains(id))</span>
+<span class="nc" id="L84">                throw new DatabaseException(&quot;Task &quot; + id + &quot; is already in the service order&quot;);</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (Long id : taskList.getTaskList()) {</span>
+<span class="nc" id="L87">            Task task = taskRepository.findById(id).orElseThrow(() -&gt; new ResourceNotFoundException(</span>
+                    &quot;Task &quot; + id + &quot; not found&quot;));
+<span class="nc" id="L89">            authService.validateClient(task.getClient().getId());</span>
+<span class="nc" id="L90">            ServiceTask serviceTask = new ServiceTask();</span>
+<span class="nc" id="L91">            serviceTask.setTask(task);</span>
+<span class="nc" id="L92">            serviceTask.setService(entity);</span>
+<span class="nc" id="L93">            serviceTask.setCompleted(false);</span>
+<span class="nc" id="L94">            serviceTask = serviceTaskRepository.save(serviceTask);</span>
+<span class="nc" id="L95">            entity.getServiceTasks().add(serviceTask);</span>
+<span class="nc" id="L96">        }</span>
+
+<span class="nc" id="L98">        entity = serviceOrdeRepository.save(entity);</span>
+<span class="nc" id="L99">        return new ServiceOrderDTO(entity);</span>
+
+    }
+
+    /*
+     * // talvez deletar
+     * 
+     * @Transactional
+     * public ServiceOrderDTO updateServiceOrder(InsertTaskServiceOrderDTO
+     * updateDTO, Long id) {
+     * ServiceOrder entity = serviceOrdeRepository.findById(id)
+     * .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Order &quot; + id +
+     * &quot; not found&quot;));
+     * authService.validateClient(entity.getClient().getId());
+     * if (!updateDTO.getUpdatedTaskList().isEmpty()) {
+     * List&lt;Long&gt; existingTaskIds = entity.getServiceTasks().stream().map(x -&gt;
+     * x.getTask().getId())
+     * .collect(Collectors.toList());
+     * for (int i = 0; i &lt; existingTaskIds.size() - 1; i++) {
+     * if (updateDTO.getUpdatedTaskList().contains(existingTaskIds.get(i))) {
+     * continue;
+     * } else {
+     * 
+     * entity = serviceOrdeRepository.saveAndFlush(entity);
+     * }
+     * }
+     * existingTaskIds = entity.getServiceTasks().stream().map(x -&gt;
+     * x.getTask().getId())
+     * .collect(Collectors.toList());
+     * for (Long taskId : updateDTO.getUpdatedTaskList()) {
+     * if (!existingTaskIds.contains(taskId)) {
+     * ServiceTask serviceTask = new ServiceTask();
+     * serviceTask.setClient(entity.getClient());
+     * Task task = taskRepository.findById(id).orElseThrow(() -&gt; new
+     * ResourceNotFoundException(
+     * &quot;Task &quot; + id + &quot; not found&quot;));
+     * authService.validateClient(task.getClient().getId());
+     * serviceTask.setTask(task);
+     * serviceTask.setService(entity);
+     * serviceTask.setCompleted(false);
+     * entity.getServiceTasks().add(serviceTask);
+     * }
+     * }
+     * }
+     * entity = serviceOrdeRepository.save(entity);
+     * return new ServiceOrderDTO(entity);
+     * }
+     */
+
+    private void populateServiceOrderEntityFromDTO(ServiceOrder order, CreateServiceOrderDTO dto, Long clientId,
+            Long orderId) {
+<span class="nc" id="L150">        order.setPlan(planRepository.findById(dto.getPlanId()).get());</span>
+<span class="nc" id="L151">        order.setVehicle(vehicleRepository.searchById(dto.getVehicleId(), clientId).get());</span>
+<span class="nc" id="L152">        Set&lt;ServiceTask&gt; serviceTasks = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        for (Task task : planRepository.findById(dto.getPlanId()).get().getTasks()) {</span>
+<span class="nc" id="L154">            ServiceTask serviceTask = new ServiceTask();</span>
+<span class="nc" id="L155">            serviceTask.setClient(clientRepository.findById(clientId).get());</span>
+<span class="nc" id="L156">            serviceTask.setTask(task);</span>
+<span class="nc" id="L157">            serviceTask.setService(serviceOrdeRepository.findById(orderId).get());</span>
+<span class="nc" id="L158">            serviceTask.setCompleted(false);</span>
+<span class="nc" id="L159">            serviceTasks.add(serviceTask);</span>
+<span class="nc" id="L160">            serviceTaskRepository.save(serviceTask);</span>
+<span class="nc" id="L161">        }</span>
+<span class="nc" id="L162">        order.setStatus(OrderStatus.APPROVED);</span>
+<span class="nc" id="L163">        order.setServiceTasks(serviceTasks);</span>
+
+<span class="nc" id="L165">    }</span>
+
+    @Transactional
+    public ServiceOrderDTO finishServiceOrder(Long id, FinishServiceOrderDTO finishServiceOrderDTO) {
+
+<span class="nc" id="L170">        ServiceOrder so = serviceOrdeRepository.findById(id)</span>
+<span class="nc" id="L171">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Order &quot; + id + &quot; not found&quot;));</span>
+
+<span class="nc" id="L173">        authService.validateClient(so.getClient().getId());</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (so.getStatus() == OrderStatus.COMPLETED)</span>
+<span class="nc" id="L176">            throw new DatabaseException(&quot;The service order &quot; + id + &quot; is already finished&quot;);</span>
+<span class="nc" id="L177">        so = setTaskCompletion(so, finishServiceOrderDTO);</span>
+
+<span class="nc bnc" id="L179" title="All 4 branches missed.">        switch (so.getPlan().getRecurrenceType()) {</span>
+            case ODOMETER:
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                Integer finishOdometer = finishServiceOrderDTO.getFinishCounter() == null</span>
+<span class="nc" id="L182">                        ? so.getVehicle().getCurrentOdometer()</span>
+<span class="nc" id="L183">                        : finishServiceOrderDTO.getFinishCounter();</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">                if (finishOdometer &lt; so.getVehicle().getCurrentOdometer()</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                        || finishOdometer &gt; so.getVehicle().getCurrentOdometer() + 2000)</span>
+<span class="nc" id="L186">                    throw new DatabaseException(&quot;!Safety trigger. Invalid finish counter value.&quot;);</span>
+<span class="nc" id="L187">                so.setConclusionCounter(finishOdometer);</span>
+<span class="nc" id="L188">                break;</span>
+
+            case HOURMETER:
+<span class="nc bnc" id="L191" title="All 2 branches missed.">                BigDecimal finishHourmeter = finishServiceOrderDTO.getFinishCounter() == null</span>
+<span class="nc" id="L192">                        ? so.getVehicle().getCurrentHourmeter()</span>
+<span class="nc" id="L193">                        : new BigDecimal(finishServiceOrderDTO.getFinishCounter());</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                if (finishHourmeter.compareTo(new BigDecimal(so.getVehicle().getCurrentOdometer())) &lt; 0</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                        || finishHourmeter.compareTo(new BigDecimal(so.getVehicle().getCurrentOdometer() + 100)) &gt; 0)</span>
+<span class="nc" id="L196">                    throw new DatabaseException(&quot;!Safety trigger. Invalid finish counter value.&quot;);</span>
+<span class="nc" id="L197">                so.setConclusionCounter(Integer.parseInt(finishHourmeter.toString()));</span>
+<span class="nc" id="L198">                break;</span>
+
+            case TIME:
+<span class="nc" id="L201">                break;</span>
+
+            default:
+                break;
+        }
+
+<span class="nc" id="L207">        so.setConclusionDate(LocalDate.now());</span>
+<span class="nc" id="L208">        so.setStatus(OrderStatus.COMPLETED);</span>
+<span class="nc" id="L209">        so = serviceOrdeRepository.save(so);</span>
+<span class="nc" id="L210">        return new ServiceOrderDTO(so);</span>
+    }
+
+    private ServiceOrder setTaskCompletion(ServiceOrder so, FinishServiceOrderDTO finishServiceOrderDTO) {
+        // Mapa de ServiceTask ID para Task ID
+<span class="nc" id="L215">        Map&lt;Long, Long&gt; idsMap = so.getServiceTasks().stream()</span>
+<span class="nc" id="L216">                .collect(Collectors.toMap(ServiceTask::getId, st -&gt; st.getTask().getId()));</span>
+
+        // Lista de Task IDs
+<span class="nc" id="L219">        List&lt;Long&gt; taskIds = so.getServiceTasks().stream()</span>
+<span class="nc" id="L220">                .map(st -&gt; st.getTask().getId())</span>
+<span class="nc" id="L221">                .collect(Collectors.toList());</span>
+
+        // Iterando sobre os dados fornecidos
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        for (Map.Entry&lt;String, Boolean&gt; entry : finishServiceOrderDTO.getTasks().entrySet()) {</span>
+<span class="nc" id="L225">            Long taskId = Long.parseLong(entry.getKey());</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">            if (!taskIds.contains(taskId)) {</span>
+<span class="nc" id="L227">                throw new ResourceNotFoundException(&quot;Task &quot; + taskId + &quot; not found in the service order&quot;);</span>
+            }
+
+            // Encontrar ServiceTask pela taskId
+<span class="nc" id="L231">            ServiceTask st = serviceTaskRepository.findById(idsMap.entrySet().stream()</span>
+<span class="nc" id="L232">                    .filter(e -&gt; e.getValue().equals(taskId))</span>
+<span class="nc" id="L233">                    .map(Map.Entry::getKey)</span>
+<span class="nc" id="L234">                    .findFirst()</span>
+<span class="nc" id="L235">                    .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;ServiceTask not found for Task ID: &quot; + taskId)))</span>
+<span class="nc" id="L236">                    .get();</span>
+<span class="nc" id="L237">            authService.validateClient(st.getClient().getId());</span>
+
+            // Atualizar estado de conclusão
+<span class="nc" id="L240">            st.setCompleted(entry.getValue());</span>
+<span class="nc" id="L241">            serviceTaskRepository.save(st);</span>
+<span class="nc" id="L242">        }</span>
+
+        // Salvar ServiceOrder
+<span class="nc" id="L245">        return serviceOrdeRepository.saveAndFlush(so);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public Page&lt;ServiceOrderDTO&gt; findAll(Pageable pageable) {
+<span class="nc" id="L250">        Page&lt;ServiceOrder&gt; result = serviceOrdeRepository.findAllServiceOrders(authService.getClientId(), pageable);</span>
+<span class="nc" id="L251">        return result.map(x -&gt; new ServiceOrderDTO(x));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

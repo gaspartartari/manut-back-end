@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FuelingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">FuelingService.java</span></div><h1>FuelingService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.manut.api.dto.FuelingDTO;
+import com.manut.api.dto.SyncFuelingDTO;
+import com.manut.api.dto.SyncInformDTO;
+import com.manut.api.entities.Client;
+import com.manut.api.entities.Fueling;
+import com.manut.api.entities.FuelingSyncedEvent;
+import com.manut.api.enums.SyncStatus;
+import com.manut.api.projections.ClientProjection;
+import com.manut.api.proxys.CTAProxy;
+import com.manut.api.repositories.ClientRepository;
+import com.manut.api.repositories.FuelingRepository;
+import com.manut.api.repositories.UserRepository;
+import com.manut.api.utils.CustomUserUtil;
+
+@Service
+<span class="fc" id="L36">public class FuelingService {</span>
+
+<span class="fc" id="L38">    private static final Logger logger = LoggerFactory.getLogger(CTAProxy.class);</span>
+
+    @Autowired
+    private FuelingRepository fuelingRepository;
+
+    @Autowired
+    private CTAProxy ctaProxy;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private CustomUserUtil customUserUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MapperService mapperService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    @Transactional
+    public SyncFuelingDTO saveFueling(SyncFuelingDTO syncFuelingDTO) {
+<span class="nc" id="L66">        List&lt;FuelingDTO&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L67">        Fueling entity = new Fueling();</span>
+<span class="nc" id="L68">        String username = customUserUtil.getLoggedUser();</span>
+<span class="nc" id="L69">        ClientProjection client = userRepository.findClientIdByUserEmail(username);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (client == null) {</span>
+<span class="nc" id="L71">            throw new UsernameNotFoundException(&quot;Client not found for user : &quot; + username);</span>
+        }
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (FuelingDTO f : syncFuelingDTO.getFuellings()) {</span>
+<span class="nc" id="L75">            entity = mapperService.mapDtoToFueling(f, client.getId());</span>
+<span class="nc" id="L76">            entity.setClient(clientRepository.getReferenceById(client.getId()));</span>
+<span class="nc" id="L77">            entity = fuelingRepository.save(entity);</span>
+<span class="nc" id="L78">            list.add(new FuelingDTO(entity));</span>
+<span class="nc" id="L79">        }</span>
+
+<span class="nc" id="L81">        SyncFuelingDTO result = new SyncFuelingDTO(null, list);</span>
+<span class="nc" id="L82">        return result;</span>
+
+    }
+
+    @Transactional
+    @Scheduled(initialDelay = 2000, fixedDelay = Long.MAX_VALUE)
+    public void syncFuelings() {
+<span class="fc" id="L89">        List&lt;ClientProjection&gt; clients = clientRepository.findAllTokens();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (ClientProjection client : clients) {</span>
+<span class="fc" id="L91">            List&lt;SyncInformDTO&gt; informList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L92">            List&lt;List&lt;Long&gt;&gt; updatedVehicleIds = new ArrayList&lt;&gt;();</span>
+            try {
+<span class="fc" id="L94">                SyncFuelingDTO dto = ctaProxy.syncFuelings(client.getToken());</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                if (dto.getFuellings() == null) { continue; }</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                for (FuelingDTO fuelingDto : dto.getFuellings()) {</span>
+<span class="fc" id="L97">                    Fueling fuelingEntity = mapperService.mapDtoToFueling(fuelingDto, client.getId());</span>
+<span class="fc" id="L98">                    Client clientEntity = clientRepository.getReferenceById(client.getId());</span>
+                    try {
+<span class="fc" id="L100">                        fuelingEntity.setClient(clientEntity);</span>
+<span class="fc" id="L101">                        fuelingRepository.save(fuelingEntity);</span>
+<span class="fc" id="L102">                        updatedVehicleIds.add(Arrays.asList(fuelingDto.getVehicle().getExternalId(), client.getId()));</span>
+<span class="fc" id="L103">                        informList.add(new SyncInformDTO(fuelingEntity.getExternalId(), SyncStatus.SUCESSO, null));</span>
+<span class="fc" id="L104">                    } catch (Exception e) {</span>
+<span class="fc" id="L105">                        informList.add(new SyncInformDTO(fuelingEntity.getExternalId(), SyncStatus.ERRO, null));</span>
+<span class="fc" id="L106">                    }</span>
+<span class="fc" id="L107">                }</span>
+<span class="nc" id="L108">                String syncInformList = createSyncReportJson(informList);</span>
+                // ctaProxy.sendSyncReport(syncInformList, client.getToken());
+<span class="nc" id="L110">                eventPublisher.publishEvent(new FuelingSyncedEvent(this, updatedVehicleIds));</span>
+<span class="fc" id="L111">            } catch (Exception e) {</span>
+<span class="fc" id="L112">                logger.error(&quot;Erro ao sincronizar abastecimentos&quot;, e);</span>
+<span class="nc" id="L113">            }</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">    }</span>
+
+    
+
+    private String createSyncReportJson(List&lt;SyncInformDTO&gt; syncInformDtos) {
+<span class="nc" id="L120">        ObjectNode rootNode = objectMapper.createObjectNode();</span>
+<span class="nc" id="L121">        ArrayNode fuelingNodes = rootNode.putArray(&quot;fuelings&quot;);</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        for (SyncInformDTO syncInformDto : syncInformDtos) {</span>
+<span class="nc" id="L124">            ObjectNode fuelingNode = fuelingNodes.addObject();</span>
+<span class="nc" id="L125">            fuelingNode.put(&quot;id&quot;, syncInformDto.getId());</span>
+<span class="nc" id="L126">            fuelingNode.put(&quot;status&quot;, syncInformDto.getStatus().toString());</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (syncInformDto.getStatus() == SyncStatus.ERRO) {</span>
+<span class="nc" id="L128">                fuelingNode.put(&quot;error&quot;, syncInformDto.getMotivoErro());</span>
+            }
+<span class="nc" id="L130">        }</span>
+
+        try {
+<span class="nc" id="L133">            return objectMapper.writeValueAsString(rootNode);</span>
+<span class="nc" id="L134">        } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L135">            throw new RuntimeException(e);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

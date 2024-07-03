@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaskService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">TaskService.java</span></div><h1>TaskService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.manut.api.dto.TaskMinDTO;
+import com.manut.api.entities.Task;
+import com.manut.api.repositories.ClientRepository;
+import com.manut.api.repositories.TaskRepository;
+import com.manut.api.services.exceptions.ClientNotFoundException;
+import com.manut.api.services.exceptions.DatabaseException;
+import com.manut.api.services.exceptions.ResourceNotFoundException;
+
+@Service
+<span class="fc" id="L22">public class TaskService {</span>
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private AuthService authService;
+
+    @Transactional
+    public TaskMinDTO insert(TaskMinDTO insertTaskDTO) {
+<span class="nc" id="L35">        Task task = new Task();</span>
+<span class="nc" id="L36">        mapDtoToEntity(task, insertTaskDTO);</span>
+<span class="nc" id="L37">        Long clientId = authService.getClientId();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (!clientRepository.existsById(clientId))</span>
+<span class="nc" id="L39">            throw new ClientNotFoundException(&quot;Client not found&quot;);</span>
+<span class="nc" id="L40">        task.setClient(clientRepository.findById(clientId).get());</span>
+<span class="nc" id="L41">        task = taskRepository.save(task);</span>
+<span class="nc" id="L42">        return new TaskMinDTO(task);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;TaskMinDTO&gt; findAll(Pageable pageable) {
+<span class="nc" id="L47">        Long clientId = authService.getClientId();</span>
+<span class="nc" id="L48">        Page&lt;Task&gt; list = taskRepository.findAllTasks(clientId, pageable);</span>
+<span class="nc" id="L49">        return list.map(x -&gt; new TaskMinDTO(x)).toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public TaskMinDTO findById(Long id) {
+<span class="nc" id="L54">        Task result = taskRepository.findById(id)</span>
+<span class="nc" id="L55">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;task &quot; + id + &quot; not found&quot;));</span>
+<span class="nc" id="L56">        authService.validateClient(result.getClient().getId());</span>
+<span class="nc" id="L57">        return new TaskMinDTO(result);</span>
+    }
+
+    @Transactional
+    public TaskMinDTO update(Long id, TaskMinDTO taskDTO) {
+<span class="nc" id="L62">        Task task = taskRepository.findById(id)</span>
+<span class="nc" id="L63">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Resource &quot; + id + &quot; not found&quot;));</span>
+<span class="nc" id="L64">        authService.validateClient(task.getClient().getId());</span>
+<span class="nc" id="L65">        mapDtoToEntity(task, taskDTO);</span>
+<span class="nc" id="L66">        task = taskRepository.save(task);</span>
+<span class="nc" id="L67">        return new TaskMinDTO(task);</span>
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (!taskRepository.existsById(id))</span>
+<span class="nc" id="L73">            throw new ResourceNotFoundException(&quot;Resource not found: &quot; + id);</span>
+        try {
+<span class="nc" id="L75">            Task task = taskRepository.findById(id).get();</span>
+<span class="nc" id="L76">            authService.validateClient(task.getClient().getId());</span>
+<span class="nc" id="L77">            taskRepository.deleteById(id);</span>
+<span class="nc" id="L78">        } catch (DataIntegrityViolationException e) {</span>
+<span class="nc" id="L79">            throw new DatabaseException(&quot;Referential constraint violation&quot;);</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
+
+    private void mapDtoToEntity(Task entity, TaskMinDTO dto) {
+<span class="nc" id="L84">        entity.setName(dto.getName());</span>
+<span class="nc" id="L85">        entity.setComponent(dto.getComponent());</span>
+<span class="nc" id="L86">        entity.setObservation(dto.getObservation());</span>
+<span class="nc" id="L87">        entity.setExecutor(dto.getExecutor());</span>
+<span class="nc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

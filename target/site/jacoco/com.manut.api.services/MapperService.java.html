@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapperService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">MapperService.java</span></div><h1>MapperService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.manut.api.dto.FuelingDTO;
+import com.manut.api.entities.Attendant;
+import com.manut.api.entities.Company;
+import com.manut.api.entities.Driver;
+import com.manut.api.entities.Fuel;
+import com.manut.api.entities.Fueling;
+import com.manut.api.entities.Pump;
+import com.manut.api.entities.Station;
+import com.manut.api.entities.Tank;
+import com.manut.api.entities.Vehicle;
+import com.manut.api.repositories.AttendantRepository;
+import com.manut.api.repositories.ClientRepository;
+import com.manut.api.repositories.CompanyRepository;
+import com.manut.api.repositories.DriverRepository;
+import com.manut.api.repositories.FuelRepository;
+import com.manut.api.repositories.PumpRepository;
+import com.manut.api.repositories.StationRepository;
+import com.manut.api.repositories.TankRepository;
+import com.manut.api.repositories.VehicleRepository;
+
+@Service
+<span class="fc" id="L34">public class MapperService {</span>
+
+<span class="fc" id="L36">    private static final Logger logger = LoggerFactory.getLogger(MapperService.class);</span>
+
+    @Autowired
+    private StationRepository stationRepository;
+    @Autowired
+    private TankRepository tankRepository;
+    @Autowired
+    private PumpRepository pumpRepository;
+    @Autowired
+    private FuelRepository fuelRepository;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
+    @Autowired
+    private DriverRepository driverRepository;
+    @Autowired
+    private AttendantRepository attendantRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Transactional
+    public Fueling mapDtoToFueling(FuelingDTO dto, Long existingClientId) {
+        try {
+<span class="nc" id="L60">            Fueling fueling = new Fueling();</span>
+
+<span class="nc" id="L62">            fueling.setExternalId(dto.getId());</span>
+<span class="nc" id="L63">            fueling.setHourmeter(dto.getHourmeter());</span>
+<span class="nc" id="L64">            fueling.setCost(dto.getCost());</span>
+<span class="nc" id="L65">            fueling.setDistance(dto.getDistance());</span>
+<span class="nc" id="L66">            fueling.setFinalMeasure(dto.getFinalMeasure());</span>
+<span class="nc" id="L67">            fueling.setKilometerPerLiterAverage(dto.getKilometerPerLiterAverage());</span>
+<span class="nc" id="L68">            fueling.setLiterPerHourAverage(dto.getLiterPerHourAverage());</span>
+<span class="nc" id="L69">            fueling.setOdometer(dto.getOdometer());</span>
+<span class="nc" id="L70">            fueling.setStartDate(dto.getStartDate());</span>
+<span class="nc" id="L71">            fueling.setStartTime(dto.getStartTime());</span>
+<span class="nc" id="L72">            fueling.setEndDate(dto.getEndDate());</span>
+<span class="nc" id="L73">            fueling.setEndTime(dto.getEndTime());</span>
+            // converting localDate to UTC
+<span class="nc" id="L75">            LocalDateTime startDateTime = LocalDateTime.of(dto.getStartDate(), dto.getStartTime());</span>
+<span class="nc" id="L76">            ZoneOffset offset = ZoneOffset.ofHours(-3);</span>
+<span class="nc" id="L77">            ZonedDateTime gmtStartDateTime = ZonedDateTime.of(startDateTime, offset);</span>
+<span class="nc" id="L78">            Instant instantOfStartDateTime = gmtStartDateTime.toInstant();</span>
+<span class="nc" id="L79">            LocalDateTime endDateTime = LocalDateTime.of(dto.getEndDate(), dto.getEndTime());</span>
+<span class="nc" id="L80">            ZonedDateTime gmtEndDateTime = ZonedDateTime.of(endDateTime, offset);</span>
+<span class="nc" id="L81">            Instant instantOfEndDateTime = gmtEndDateTime.toInstant();</span>
+<span class="nc" id="L82">            fueling.setStartDateTime(instantOfStartDateTime);</span>
+<span class="nc" id="L83">            fueling.setEndDateTime(instantOfEndDateTime);</span>
+<span class="nc" id="L84">            fueling.setVolume(dto.getVolume());</span>
+<span class="nc" id="L85">            fueling.setWorkedHours(dto.getWorkedHours());</span>
+
+            // Para 'Station'
+<span class="nc" id="L88">            Station station = stationRepository.searchById(dto.getStation().getExternalId(),</span>
+<span class="nc" id="L89">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L90">                        Station newStation = new Station();</span>
+<span class="nc" id="L91">                        newStation.setExternalId(dto.getStation().getExternalId());</span>
+<span class="nc" id="L92">                        newStation.setCode(dto.getStation().getCode());</span>
+<span class="nc" id="L93">                        newStation.setName(dto.getStation().getName());</span>
+<span class="nc" id="L94">                        newStation.setCommercialStation(dto.getStation().isCommercialStation());</span>
+<span class="nc" id="L95">                        newStation.setCnpj(dto.getStation().getCnpj());</span>
+<span class="nc" id="L96">                        newStation.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L97">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L99">                        return newStation;</span>
+                    });
+
+<span class="nc" id="L102">            stationRepository.save(station);</span>
+<span class="nc" id="L103">            fueling.setStation(station);</span>
+
+            // Para 'Tank'
+<span class="nc" id="L106">            Tank tank = tankRepository.searchById(dto.getTank().getExternalId(),</span>
+<span class="nc" id="L107">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L108">                        logger.info(&quot;Tank not found for id: {}&quot;, dto.getTank().getExternalId());</span>
+<span class="nc" id="L109">                        logger.info(&quot;Creating new tank...&quot;);</span>
+<span class="nc" id="L110">                        Tank newTank = new Tank();</span>
+<span class="nc" id="L111">                        newTank.setExternalId(dto.getTank().getExternalId());</span>
+<span class="nc" id="L112">                        newTank.setCode(dto.getTank().getCode());</span>
+<span class="nc" id="L113">                        newTank.setName(dto.getTank().getName());</span>
+<span class="nc" id="L114">                        newTank.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L115">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L117">                        return newTank;</span>
+                    });
+
+<span class="nc" id="L120">            tankRepository.save(tank);</span>
+<span class="nc" id="L121">            fueling.setTank(tank);</span>
+
+            // Para 'Pump'
+<span class="nc" id="L124">            Pump pump = pumpRepository.searchById(dto.getPump().getExternalId(),</span>
+<span class="nc" id="L125">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L126">                        logger.info(&quot;Pump not found for id: {}&quot;, dto.getPump().getExternalId());</span>
+<span class="nc" id="L127">                        logger.info(&quot;Creating new pump...&quot;);</span>
+<span class="nc" id="L128">                        Pump newPump = new Pump();</span>
+<span class="nc" id="L129">                        newPump.setExternalId(dto.getPump().getExternalId());</span>
+<span class="nc" id="L130">                        newPump.setCode(dto.getPump().getCode());</span>
+<span class="nc" id="L131">                        newPump.setName(dto.getPump().getName());</span>
+<span class="nc" id="L132">                        newPump.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L133">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L135">                        return newPump;</span>
+                    });
+
+<span class="nc" id="L138">            pumpRepository.save(pump);</span>
+<span class="nc" id="L139">            fueling.setPump(pump);</span>
+
+            // Para 'Fuel'
+<span class="nc" id="L142">            Fuel fuel = fuelRepository.searchById(dto.getFuel().getExternalId(),</span>
+<span class="nc" id="L143">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L144">                        logger.info(&quot;Fuel not found for id: {}&quot;, dto.getFuel().getExternalId());</span>
+<span class="nc" id="L145">                        logger.info(&quot;Creating new fuel...&quot;);</span>
+<span class="nc" id="L146">                        Fuel newFuel = new Fuel();</span>
+<span class="nc" id="L147">                        newFuel.setExternalId(dto.getFuel().getExternalId());</span>
+<span class="nc" id="L148">                        newFuel.setCode(dto.getFuel().getCode());</span>
+<span class="nc" id="L149">                        newFuel.setDescription(dto.getFuel().getDescription());</span>
+<span class="nc" id="L150">                        newFuel.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L151">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L153">                        return newFuel;</span>
+
+                    });
+
+<span class="nc" id="L157">            fuelRepository.save(fuel);</span>
+<span class="nc" id="L158">            fueling.setFuel(fuel);</span>
+
+            // Para 'Attendant'
+<span class="nc" id="L161">            Attendant attendant = attendantRepository</span>
+<span class="nc" id="L162">                    .searchById(dto.getAttendant().getExternalId(), existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L163">                        logger.info(&quot;Attendant not found for id: {}&quot;, dto.getAttendant().getExternalId());</span>
+<span class="nc" id="L164">                        logger.info(&quot;Creating new attendant...&quot;);</span>
+<span class="nc" id="L165">                        Attendant newAttendant = new Attendant();</span>
+<span class="nc" id="L166">                        newAttendant.setExternalId(dto.getAttendant().getExternalId());</span>
+<span class="nc" id="L167">                        newAttendant.setCode(dto.getAttendant().getCode());</span>
+<span class="nc" id="L168">                        newAttendant.setName(dto.getAttendant().getName());</span>
+<span class="nc" id="L169">                        newAttendant.setCpf(dto.getAttendant().getCpf());</span>
+<span class="nc" id="L170">                        newAttendant.setActive(dto.getAttendant().isActive());</span>
+<span class="nc" id="L171">                        newAttendant.setRfid(dto.getAttendant().getRfid());</span>
+<span class="nc" id="L172">                        newAttendant.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L173">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L175">                        return newAttendant;</span>
+
+                    });
+
+<span class="nc" id="L179">            attendantRepository.save(attendant);</span>
+<span class="nc" id="L180">            fueling.setAttendant(attendant);</span>
+
+            // Para 'Driver'
+<span class="nc" id="L183">            Driver driver = driverRepository.searchById(dto.getDriver().getExternalId(),</span>
+<span class="nc" id="L184">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L185">                        logger.info(&quot;Driver not found for id: {}&quot;, dto.getDriver().getExternalId());</span>
+<span class="nc" id="L186">                        logger.info(&quot;Creating new driver...&quot;);</span>
+<span class="nc" id="L187">                        Driver newDriver = new Driver();</span>
+<span class="nc" id="L188">                        newDriver.setExternalId(dto.getDriver().getExternalId());</span>
+<span class="nc" id="L189">                        newDriver.setCode(dto.getDriver().getCode());</span>
+<span class="nc" id="L190">                        newDriver.setName(dto.getDriver().getName());</span>
+<span class="nc" id="L191">                        newDriver.setCpf(dto.getDriver().getCpf());</span>
+<span class="nc" id="L192">                        newDriver.setCnh(dto.getDriver().getCnh());</span>
+<span class="nc" id="L193">                        newDriver.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L194">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L196">                        return newDriver;</span>
+
+                    });
+
+<span class="nc" id="L200">            driverRepository.save(driver);</span>
+<span class="nc" id="L201">            fueling.setDriver(driver);</span>
+
+            // Para Vehicle 2
+<span class="nc" id="L204">            Vehicle vehicle = vehicleRepository.searchById(dto.getVehicle().getExternalId(),</span>
+<span class="nc" id="L205">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L206">                        logger.info(&quot;Vehicle not fond for id: {}&quot;, dto.getVehicle().getExternalId());</span>
+<span class="nc" id="L207">                        logger.info(&quot;Creating new vehicle..&quot;);</span>
+<span class="nc" id="L208">                        Vehicle newVehicle = new Vehicle();</span>
+<span class="nc" id="L209">                        newVehicle.setExternalId(dto.getVehicle().getExternalId());</span>
+<span class="nc" id="L210">                        newVehicle.setName(dto.getVehicle().getName());</span>
+<span class="nc" id="L211">                        newVehicle.setBypass(dto.getVehicle().isBypass());</span>
+<span class="nc" id="L212">                        newVehicle.setCategory(dto.getVehicle().getCategory());</span>
+<span class="nc" id="L213">                        newVehicle.setCode(dto.getVehicle().getCode());</span>
+<span class="nc" id="L214">                        newVehicle.setFleet(dto.getVehicle().getFleet());</span>
+<span class="nc" id="L215">                        newVehicle.setLicensePlate(dto.getVehicle().getLicensePlate());</span>
+<span class="nc" id="L216">                        newVehicle.setModel(dto.getVehicle().getModel());</span>
+<span class="nc" id="L217">                        newVehicle.setRfid(dto.getVehicle().getRfid());</span>
+<span class="nc" id="L218">                        newVehicle.setCurrentHourmeter(dto.getHourmeter());</span>
+<span class="nc" id="L219">                        newVehicle.setCurrentOdometer(dto.getOdometer());</span>
+<span class="nc" id="L220">                        newVehicle.setLastFuelingDate(dto.getEndDate());</span>
+<span class="nc" id="L221">                        newVehicle.setLastFuelingTime(dto.getEndTime());</span>
+<span class="nc" id="L222">                        newVehicle.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L223">                                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                                        &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L225">                        return newVehicle;</span>
+
+                    });
+<span class="nc" id="L228">            vehicle = vehicleRepository.save(vehicle);</span>
+<span class="nc" id="L229">            fueling.setVehicle(vehicle);</span>
+
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            if (dto.getEndDate().isAfter(vehicle.getLastFuelingDate())) {</span>
+<span class="nc" id="L232">                vehicle.setCurrentHourmeter(dto.getHourmeter());</span>
+<span class="nc" id="L233">                vehicle.setCurrentOdometer(dto.getOdometer());</span>
+<span class="nc" id="L234">                vehicle.setLastFuelingDate(dto.getEndDate());</span>
+<span class="nc" id="L235">                vehicle.setLastFuelingTime(dto.getEndTime());</span>
+            }
+<span class="nc bnc" id="L237" title="All 2 branches missed.">            if (dto.getEndDate().equals(vehicle.getLastFuelingDate())) {</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                if (dto.getEndTime().isAfter(vehicle.getLastFuelingTime())) {</span>
+<span class="nc" id="L239">                    vehicle.setCurrentHourmeter(dto.getHourmeter());</span>
+<span class="nc" id="L240">                    vehicle.setCurrentOdometer(dto.getOdometer());</span>
+<span class="nc" id="L241">                    vehicle.setLastFuelingDate(dto.getEndDate());</span>
+<span class="nc" id="L242">                    vehicle.setLastFuelingTime(dto.getEndTime());</span>
+                }
+            }
+
+<span class="nc" id="L246">            vehicle = vehicleRepository.save(vehicle);</span>
+<span class="nc" id="L247">            fueling.setVehicle(vehicle);</span>
+
+            // Para &quot;Company&quot;
+<span class="nc" id="L250">            Company company = companyRepository.searchById(dto.getCompany().getExternalId(),</span>
+<span class="nc" id="L251">                    existingClientId).orElseGet(() -&gt; {</span>
+<span class="nc" id="L252">                        logger.info(&quot;Company not fond for id: {}&quot;, dto.getCompany().getExternalId());</span>
+<span class="nc" id="L253">                        logger.info(&quot;Creating new company..&quot;);</span>
+<span class="nc" id="L254">                        Company newCompany = new Company();</span>
+<span class="nc" id="L255">                        newCompany.setExternalId(dto.getCompany().getExternalId());</span>
+<span class="nc" id="L256">                        newCompany.setCode(dto.getCompany().getCode());</span>
+<span class="nc" id="L257">                        newCompany.setName(dto.getCompany().getName());</span>
+<span class="nc" id="L258">                        newCompany.setBranch(dto.getCompany().getBranch());</span>
+<span class="nc" id="L259">                        newCompany.setCnpj(dto.getCompany().getCnpj());</span>
+<span class="nc" id="L260">                        newCompany.setClient(clientRepository.findById(existingClientId)</span>
+<span class="nc" id="L261">                                .orElseThrow(</span>
+<span class="nc" id="L262">                                        () -&gt; new IllegalArgumentException(</span>
+                                                &quot;Client not found for id : &quot; + existingClientId)));
+<span class="nc" id="L264">                        return newCompany;</span>
+
+                    });
+
+<span class="nc" id="L268">            company = companyRepository.save(company);</span>
+<span class="nc" id="L269">            fueling.setCompany(company);</span>
+
+<span class="nc" id="L271">            return fueling;</span>
+
+<span class="nc" id="L273">        } catch (</span>
+
+        Exception e) {
+<span class="nc" id="L276">            logger.error(&quot;Error mapping FuelingDTO to Fueling: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L277">            return null;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

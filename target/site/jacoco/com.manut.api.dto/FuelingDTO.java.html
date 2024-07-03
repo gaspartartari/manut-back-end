@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FuelingDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.dto</a> &gt; <span class="el_source">FuelingDTO.java</span></div><h1>FuelingDTO.java</h1><pre class="source lang-java linenums">package com.manut.api.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.manut.api.entities.Fueling;
+import com.manut.api.jsons.BigDecimalFormatter;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+<span class="nc" id="L18">@Setter</span>
+@JsonIgnoreProperties({ &quot;sequencial&quot;, &quot;completo&quot;, &quot;extra1&quot;, &quot;extra2&quot;, &quot;extra3&quot;,
+        &quot;extra4&quot;, &quot;encerrante_eletronica&quot;, &quot;custo_unitario&quot;, &quot;produto_categoria_id&quot;, &quot;ORIGEM&quot;, &quot;id_externo&quot; })
+public class FuelingDTO {
+
+    @JsonProperty(&quot;id&quot;)
+<span class="nc" id="L24">    private Long id;</span>
+
+    @JsonProperty(&quot;data_inicio&quot;)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;dd/MM/yyyy&quot;)
+<span class="nc" id="L28">    private LocalDate startDate;</span>
+
+    @JsonProperty(&quot;data_fim&quot;)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;dd/MM/yyyy&quot;)
+<span class="nc" id="L32">    private LocalDate endDate;</span>
+
+    @JsonProperty(&quot;hora_fim&quot;)
+    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+<span class="nc" id="L36">    private LocalTime endTime;</span>
+
+    @JsonProperty(&quot;hora_inicio&quot;)
+    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+<span class="nc" id="L40">    private LocalTime startTime;</span>
+
+    @JsonProperty(&quot;volume&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L44">    private BigDecimal volume;</span>
+
+    @JsonProperty(&quot;odometro&quot;)
+<span class="nc" id="L47">    private Integer odometer;</span>
+
+    @JsonProperty(&quot;distancia&quot;)
+<span class="nc" id="L50">    private Integer distance;</span>
+
+    @JsonProperty(&quot;media_kilometro_litro&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L54">    private BigDecimal kilometerPerLiterAverage;</span>
+
+    @JsonProperty(&quot;horimetro&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L58">    private BigDecimal hourmeter;</span>
+
+    @JsonProperty(&quot;horas_trabalhadas&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L62">    private BigDecimal workedHours;</span>
+
+    @JsonProperty(&quot;media_litro_hora&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L66">    private BigDecimal literPerHourAverage;</span>
+
+    @JsonProperty(&quot;custo&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L70">    private BigDecimal cost;</span>
+
+    @JsonProperty(&quot;encerrante&quot;)
+    @JsonDeserialize(using = BigDecimalFormatter.class)
+<span class="nc" id="L74">    private BigDecimal finalMeasure;</span>
+
+    @JsonProperty(&quot;veiculo&quot;)
+<span class="fc" id="L77">    private VehicleDTO vehicle;</span>
+
+    @JsonProperty(&quot;motorista&quot;)
+<span class="nc" id="L80">    private DriverDTO driver;</span>
+
+    @JsonProperty(&quot;frentista&quot;)
+<span class="nc" id="L83">    private AttendantDTO attendant;</span>
+
+    @JsonProperty(&quot;posto&quot;)
+<span class="nc" id="L86">    private StationDTO station;</span>
+
+    @JsonProperty(&quot;tanque&quot;)
+<span class="nc" id="L89">    private TankDTO tank;</span>
+
+    @JsonProperty(&quot;bomba&quot;)
+<span class="nc" id="L92">    private PumpDTO pump;</span>
+
+    @JsonProperty(&quot;combustivel&quot;)
+<span class="nc" id="L95">    private FuelDTO fuel;</span>
+
+    @JsonProperty(&quot;empresa&quot;)
+<span class="nc" id="L98">    private CompanyDTO company;</span>
+
+<span class="nc" id="L100">    public FuelingDTO() {</span>
+
+<span class="nc" id="L102">    }</span>
+
+<span class="fc" id="L104">    public FuelingDTO(Fueling entity) {</span>
+<span class="fc" id="L105">        this.id = entity.getExternalId();</span>
+<span class="fc" id="L106">        this.startDate = entity.getStartDate();</span>
+<span class="fc" id="L107">        this.endDate = entity.getEndDate();</span>
+<span class="fc" id="L108">        this.startTime = entity.getStartTime();</span>
+<span class="fc" id="L109">        this.endTime = entity.getEndTime();</span>
+<span class="fc" id="L110">        this.volume = entity.getVolume();</span>
+<span class="fc" id="L111">        this.odometer = entity.getOdometer();</span>
+<span class="fc" id="L112">        this.distance = entity.getDistance();</span>
+<span class="fc" id="L113">        this.kilometerPerLiterAverage = entity.getKilometerPerLiterAverage();</span>
+<span class="fc" id="L114">        this.hourmeter = entity.getHourmeter();</span>
+<span class="fc" id="L115">        this.workedHours = entity.getWorkedHours();</span>
+<span class="fc" id="L116">        this.literPerHourAverage = entity.getLiterPerHourAverage();</span>
+<span class="fc" id="L117">        this.cost = entity.getCost();</span>
+<span class="fc" id="L118">        this.finalMeasure = entity.getFinalMeasure();</span>
+<span class="fc" id="L119">        this.vehicle = new VehicleDTO(entity.getVehicle());</span>
+<span class="fc" id="L120">        this.driver = new DriverDTO(entity.getDriver());</span>
+<span class="fc" id="L121">        this.attendant = new AttendantDTO(entity.getAttendant());</span>
+<span class="fc" id="L122">        this.station = new StationDTO(entity.getStation());</span>
+<span class="fc" id="L123">        this.tank = new TankDTO(entity.getTank());</span>
+<span class="fc" id="L124">        this.pump = new PumpDTO(entity.getPump());</span>
+<span class="fc" id="L125">        this.fuel = new FuelDTO(entity.getFuel());</span>
+<span class="fc" id="L126">        this.company = new CompanyDTO(entity.getCompany());</span>
+<span class="fc" id="L127">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

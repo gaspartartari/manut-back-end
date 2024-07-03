@@ -1,0 +1,86 @@
+{
+  "status": {
+    "codigo": "001",
+    "mensagem": "Sucesso"
+  },
+  "abastecimentos": [
+    {
+      "id": 12345,
+      "data_inicio": "12-03-2024",
+      "hora_inicio": "08:30",
+      "data_fim": "12-03-2024",
+      "hora_fim": "08:35",
+      "volume": 50.0,
+      "odometro": 120000,
+      "distancia": 500,
+      "media_kilometro_litro": 10.0,
+      "horimetro": 1500.5,
+      "hora_trabalhadas": 5.0,
+      "media_litro_hora": 10.0,
+      "custo": 250.00,
+      "encerrante": 5500.5,
+      "veiculo": {
+        "código": "VH001",
+        "placa": "ABC-1234",
+        "frota": "Frota 01",
+        "nome": "Caminhão 01",
+        "id": 67890,
+        "bypass": "false"
+      },
+      "empresa": {
+        "código": "EMP001",
+        "nome": "Transportes XYZ",
+        "filial": "São Paulo",
+        "id": 100
+      },
+      "motorista": {
+        "código": "MOT001",
+        "nome": "João Silva",
+        "id": 200
+      },
+      "frentista": {
+        "código": "FRE001",
+        "nome": "Carlos Pereira",
+        "id": 300
+      },
+      "posto": {
+        "código": "POS001",
+        "nome": "Posto Central",
+        "id": 400,
+        "posto_comercial": "true",
+        "cnpj": "12.345.678/0001-99"
+      },
+      "tanque": {
+        "código": "TAN001",
+        "nome": "Tanque 01",
+        "id": 500
+      },
+      "bomba": {
+        "código": "BOM001",
+        "nome": "Bomba 01",
+        "id": 600
+      },
+      "combustivel": {
+        "id": 1,
+        "código": "COMB",
+        "descricao": "Diesel S-10"
+      },
+      "extra1": {
+        "código": "EX001",
+        "descricao": "Extra 1 Desc"
+      },
+      "extra2": {
+        "código": "EX002",
+        "descricao": "Extra 2 Desc"
+      },
+      "extra3": {
+        "código": "EX003",
+        "descricao": "Extra 3 Desc"
+      },
+      "extra4": {
+        "código": "EX004",
+        "descricao": "Extra 4 Desc"
+      }
+    }
+  ]
+}

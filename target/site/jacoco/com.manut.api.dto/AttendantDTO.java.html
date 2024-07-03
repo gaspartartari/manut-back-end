@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttendantDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.dto</a> &gt; <span class="el_source">AttendantDTO.java</span></div><h1>AttendantDTO.java</h1><pre class="source lang-java linenums">package com.manut.api.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manut.api.entities.Attendant;
+import lombok.Getter;
+import lombok.Setter;
+
+//frentista
+@Getter
+<span class="nc" id="L11">@Setter</span>
+@JsonIgnoreProperties({ &quot;excluido&quot; })
+public class AttendantDTO {
+
+    @JsonProperty(&quot;id&quot;)
+<span class="nc" id="L16">    private Long externalId;</span>
+
+    @JsonProperty(&quot;codigo&quot;)
+<span class="nc" id="L19">    private String code;</span>
+
+    @JsonProperty(&quot;nome&quot;)
+<span class="nc" id="L22">    private String name;</span>
+
+    @JsonProperty(&quot;cpf&quot;)
+<span class="nc" id="L25">    private String cpf;</span>
+
+    @JsonProperty(&quot;ativo&quot;)
+<span class="nc" id="L28">    private boolean active;</span>
+
+    @JsonProperty(&quot;numero_rfid&quot;)
+<span class="nc" id="L31">    private String rfid;</span>
+    
+<span class="nc" id="L33">    public AttendantDTO() {</span>
+
+<span class="nc" id="L35">    }</span>
+
+<span class="fc" id="L37">    public AttendantDTO(Attendant entity) {</span>
+<span class="fc" id="L38">        externalId = entity.getExternalId();</span>
+<span class="fc" id="L39">        code = entity.getCode();</span>
+<span class="fc" id="L40">        name = entity.getName();</span>
+<span class="fc" id="L41">        cpf = entity.getCpf();</span>
+<span class="fc" id="L42">        active = entity.isActive();</span>
+<span class="fc" id="L43">        rfid = entity.getRfid();</span>
+<span class="fc" id="L44">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlanService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">PlanService.java</span></div><h1>PlanService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.manut.api.dto.MapTasksDTO;
+import com.manut.api.dto.MapVehicleDTO;
+import com.manut.api.dto.PlanDTO;
+import com.manut.api.dto.PlanVehicleDTO;
+import com.manut.api.entities.FuelingSyncedEvent;
+import com.manut.api.entities.Plan;
+import com.manut.api.entities.PlanVehicle;
+import com.manut.api.entities.PlanVehiclePK;
+import com.manut.api.entities.Task;
+import com.manut.api.entities.Vehicle;
+import com.manut.api.enums.MaintenanceStatus;
+import com.manut.api.enums.RecurrenceType;
+import com.manut.api.projections.PlanVehicleProjection;
+import com.manut.api.repositories.ClientRepository;
+import com.manut.api.repositories.PlanRepository;
+import com.manut.api.repositories.PlanVehicleRepository;
+import com.manut.api.repositories.TaskRepository;
+import com.manut.api.repositories.VehicleRepository;
+import com.manut.api.services.exceptions.DatabaseException;
+import com.manut.api.services.exceptions.ResourceNotFoundException;
+
+@Service
+<span class="fc" id="L45">public class PlanService {</span>
+
+    @Autowired
+    private PlanRepository planRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private PlanVehicleRepository planVehicleRepository;
+
+<span class="fc" id="L65">    private static final Logger logger = LoggerFactory.getLogger(PlanService.class);</span>
+
+    @Transactional
+    public PlanDTO insertPlan(PlanDTO planDTO) {
+<span class="nc" id="L69">        logger.info(&quot;Insert plan with name: {}&quot;, planDTO.getName());</span>
+<span class="nc" id="L70">        Plan plan = new Plan();</span>
+<span class="nc" id="L71">        plan.setName(planDTO.getName());</span>
+<span class="nc" id="L72">        plan.setTolerance(planDTO.getTolerance());</span>
+<span class="nc" id="L73">        plan.setIsActive(planDTO.getIsActive());</span>
+<span class="nc" id="L74">        plan.setRecurrenceInterval(planDTO.getRecurrenceInterval());</span>
+<span class="nc" id="L75">        plan.setRecurrenceType(planDTO.getRecurrenceType());</span>
+<span class="nc" id="L76">        plan.setIsRecurrent(planDTO.getIsRecurrent());</span>
+<span class="nc" id="L77">        Long clientId = authService.getClientId();</span>
+<span class="nc" id="L78">        plan.setClient(clientRepository.findById(clientId).get());</span>
+<span class="nc" id="L79">        logger.debug(&quot;Client id: {}&quot;, clientId);</span>
+<span class="nc" id="L80">        planRepository.save(plan);</span>
+<span class="nc" id="L81">        logger.debug(&quot;Plan id: {}&quot;, plan.getId());</span>
+<span class="nc" id="L82">        return new PlanDTO(plan);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public Page&lt;PlanDTO&gt; findAll(Pageable pageable) {
+<span class="nc" id="L87">        Long clientId = authService.getClientId();</span>
+<span class="nc" id="L88">        logger.debug(&quot;Client id: {}&quot;, clientId);</span>
+<span class="nc" id="L89">        Page&lt;Plan&gt; result = planRepository.findAllPlans(clientId, pageable);</span>
+<span class="nc" id="L90">        return result.map(x -&gt; new PlanDTO(x));</span>
+    }
+
+    @Transactional(readOnly = true)
+    public Page&lt;PlanVehicleDTO&gt; findAllPlanVehicle(Pageable pageable) {
+<span class="nc" id="L95">        logger.debug(&quot;Find all plan vehicles&quot;);</span>
+<span class="nc" id="L96">        Page&lt;PlanVehicle&gt; result = planVehicleRepository.findAll(pageable);</span>
+<span class="nc" id="L97">        return result.map(x -&gt; new PlanVehicleDTO(x));</span>
+    }
+
+    @Transactional(readOnly = true)
+    public PlanDTO findById(Long id) {
+<span class="nc" id="L102">        logger.debug(&quot;Find plan with id: {}&quot;, id);</span>
+<span class="nc" id="L103">        Plan result = planRepository.findById(id)</span>
+<span class="nc" id="L104">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Plan &quot; + id + &quot; not found&quot;));</span>
+<span class="nc" id="L105">        authService.validateClient(result.getClient().getId());</span>
+<span class="nc" id="L106">        return new PlanDTO(result);</span>
+    }
+
+    @Transactional
+    public PlanDTO update(Long id, PlanDTO planDTO) {
+<span class="nc" id="L111">        logger.debug(&quot;Update plan with id: {}&quot;, id);</span>
+<span class="nc" id="L112">        Plan plan = planRepository.findById(id)</span>
+<span class="nc" id="L113">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Entity &quot; + id + &quot; not found&quot;));</span>
+<span class="nc" id="L114">        authService.validateClient(plan.getClient().getId());</span>
+<span class="nc" id="L115">        plan.setName(planDTO.getName());</span>
+<span class="nc" id="L116">        plan.setTolerance(planDTO.getTolerance());</span>
+<span class="nc" id="L117">        plan.setIsActive(planDTO.getIsActive());</span>
+<span class="nc" id="L118">        plan.setRecurrenceInterval(planDTO.getRecurrenceInterval());</span>
+<span class="nc" id="L119">        plan.setRecurrenceType(planDTO.getRecurrenceType());</span>
+<span class="nc" id="L120">        plan.setIsRecurrent(planDTO.getIsRecurrent());</span>
+
+<span class="nc" id="L122">        planRepository.save(plan);</span>
+<span class="nc" id="L123">        return new PlanDTO(plan);</span>
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+<span class="nc" id="L128">        logger.debug(&quot;Delete plan with id: {}&quot;, id);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!planRepository.existsById(id))</span>
+<span class="nc" id="L130">            throw new ResourceNotFoundException(&quot;Resource not found: &quot; + id);</span>
+        try {
+<span class="nc" id="L132">            Plan plan = planRepository.findById(id).get();</span>
+<span class="nc" id="L133">            authService.validateClient(plan.getClient().getId());</span>
+<span class="nc" id="L134">            planRepository.deleteById(id);</span>
+<span class="nc" id="L135">        } catch (DataIntegrityViolationException e) {</span>
+<span class="nc" id="L136">            throw new DatabaseException(&quot;Referential constraint violation&quot;);</span>
+<span class="nc" id="L137">        }</span>
+<span class="nc" id="L138">    }</span>
+
+    @Transactional
+    public PlanDTO mapTasksToPlan(Long planId, MapTasksDTO tasksDTO) {
+<span class="nc" id="L142">        logger.debug(&quot;Map tasks to plan with id: {}&quot;, planId);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (!planRepository.existsById(planId))</span>
+<span class="nc" id="L144">            throw new ResourceNotFoundException(&quot;Resource not found:&quot; + planId);</span>
+
+<span class="nc" id="L146">        Long clientId = authService.getClientId();</span>
+<span class="nc" id="L147">        Plan plan = planRepository.findById(planId).get();</span>
+<span class="nc" id="L148">        authService.validateClient(plan.getClient().getId());</span>
+<span class="nc" id="L149">        List&lt;Long&gt; ids = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L150">        ids.addAll(tasksDTO.getTasksId());</span>
+<span class="nc" id="L151">        List&lt;Task&gt; existingTasks = taskRepository.searchTasksById(ids, clientId);</span>
+<span class="nc" id="L152">        Set&lt;Task&gt; tasks = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L153">        tasks.addAll(existingTasks);</span>
+<span class="nc" id="L154">        plan.setTasks(tasks);</span>
+<span class="nc" id="L155">        planRepository.save(plan);</span>
+<span class="nc" id="L156">        return new PlanDTO(plan);</span>
+    }
+
+    @Transactional
+    public PlanDTO mapVehicleToPlan(Long planId, MapVehicleDTO vehicleInfo) {
+<span class="nc" id="L161">        Plan plan = planRepository.findById(planId)</span>
+<span class="nc" id="L162">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Plan not found: &quot; + planId));</span>
+<span class="nc" id="L163">        authService.validateClient(plan.getClient().getId());</span>
+
+<span class="nc" id="L165">        Set&lt;Vehicle&gt; mappedVehicles = plan.getVehicles();</span>
+<span class="nc" id="L166">        List&lt;Long&gt; mappedExternalIds = mappedVehicles.stream()</span>
+<span class="nc" id="L167">                .map(Vehicle::getExternalId)</span>
+<span class="nc" id="L168">                .toList();</span>
+
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (mappedExternalIds.contains(vehicleInfo.getVehicleId()))</span>
+<span class="nc" id="L171">            throw new DatabaseException(&quot;Vehicle is already mapped to the plan&quot;);</span>
+
+<span class="nc" id="L173">        Vehicle vehicle = vehicleRepository.searchById(vehicleInfo.getVehicleId(), authService.getClientId())</span>
+<span class="nc" id="L174">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Vehicle not found&quot;));</span>
+<span class="nc" id="L175">        plan.addVehicle(vehicle);</span>
+
+<span class="nc" id="L177">        planRepository.saveAndFlush(plan);</span>
+<span class="nc" id="L178">        calculateFirstNextInterval(vehicle, plan, vehicleInfo);</span>
+
+<span class="nc" id="L180">        return new PlanDTO(plan);</span>
+
+    }
+
+    private void calculateFirstNextInterval(Vehicle vehicle, Plan plan, MapVehicleDTO vehicleInfo) {
+<span class="nc" id="L185">        PlanVehiclePK pk = new PlanVehiclePK(plan, vehicle);</span>
+<span class="nc" id="L186">        Optional&lt;PlanVehicle&gt; planVehicle = planVehicleRepository.findById(pk);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        if (planVehicle.isPresent()) {</span>
+<span class="nc" id="L188">            RecurrenceType type = plan.getRecurrenceType();</span>
+<span class="nc bnc" id="L189" title="All 4 branches missed.">            switch (type) {</span>
+                case ODOMETER:
+<span class="nc" id="L191">                    calculateOdometerInterval(vehicleInfo, plan, vehicle, planVehicle.get());</span>
+<span class="nc" id="L192">                    break;</span>
+                case HOURMETER:
+<span class="nc" id="L194">                    calculateHourmeterInterval(vehicleInfo, plan, vehicle, planVehicle.get());</span>
+<span class="nc" id="L195">                    break;</span>
+                case TIME:
+<span class="nc" id="L197">                    calculateTimeInterval(vehicleInfo, plan, vehicle, planVehicle.get());</span>
+                    break;
+            }
+        }
+<span class="nc" id="L201">    }</span>
+
+    private void calculateOdometerInterval(MapVehicleDTO vehicleInfo, Plan plan, Vehicle vehicle,
+            PlanVehicle planVehicle) {
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        Integer currentOdometer = vehicle.getCurrentOdometer() != null ? vehicle.getCurrentOdometer() : 0;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        Integer lastServiceOdometer = vehicleInfo.getLastServiceOdometer() != null</span>
+<span class="nc" id="L207">                ? vehicleInfo.getLastServiceOdometer()</span>
+<span class="nc" id="L208">                : 0;</span>
+<span class="nc" id="L209">        Integer nextServiceOdometer = lastServiceOdometer + plan.getRecurrenceInterval();</span>
+<span class="nc" id="L210">        planVehicle.setNextServiceOdometer(nextServiceOdometer);</span>
+<span class="nc" id="L211">        planVehicle.setLastServiceOdometer(lastServiceOdometer);</span>
+<span class="nc" id="L212">        Integer executeCounter = nextServiceOdometer - currentOdometer;</span>
+<span class="nc" id="L213">        planVehicle.setStatus(determineStatus(plan, executeCounter));</span>
+<span class="nc" id="L214">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L215">    }</span>
+
+    private void calculateHourmeterInterval(MapVehicleDTO vehicleInfo, Plan plan, Vehicle vehicle,
+            PlanVehicle planVehicle) {
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        BigDecimal currentHourmeter = vehicle.getCurrentHourmeter() != null ? vehicle.getCurrentHourmeter()</span>
+<span class="nc" id="L220">                : BigDecimal.ZERO;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        BigDecimal lastServiceHourmeter = vehicleInfo.getLastServiceHourmeter() != null</span>
+<span class="nc" id="L222">                ? vehicleInfo.getLastServiceHourmeter()</span>
+<span class="nc" id="L223">                : BigDecimal.ZERO;</span>
+<span class="nc" id="L224">        BigDecimal nextServiceHourmeter = lastServiceHourmeter.add(new BigDecimal(plan.getRecurrenceInterval()));</span>
+<span class="nc" id="L225">        planVehicle.setNextServiceHourmeter(nextServiceHourmeter);</span>
+<span class="nc" id="L226">        planVehicle.setLastServiceHourmeter(lastServiceHourmeter);</span>
+<span class="nc" id="L227">        BigDecimal executeCounter = nextServiceHourmeter.subtract(currentHourmeter);</span>
+<span class="nc" id="L228">        planVehicle.setStatus(determineStatus(plan, executeCounter));</span>
+<span class="nc" id="L229">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L230">    }</span>
+
+    private void calculateTimeInterval(MapVehicleDTO vehicleInfo, Plan plan, Vehicle vehicle, PlanVehicle planVehicle) {
+<span class="nc" id="L233">        LocalDate currentDate = LocalDate.now();</span>
+<span class="nc" id="L234">        LocalDate lastServiceDate = vehicleInfo.getLastServiceDate();</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (lastServiceDate == null) {</span>
+<span class="nc" id="L236">            lastServiceDate = currentDate;</span>
+        }
+<span class="nc" id="L238">        LocalDate nextServiceDate = lastServiceDate.plusDays(plan.getRecurrenceInterval());</span>
+<span class="nc" id="L239">        planVehicle.setNextServiceDate(nextServiceDate);</span>
+<span class="nc" id="L240">        planVehicle.setLastServiceDate(lastServiceDate);</span>
+<span class="nc" id="L241">        long daysBetween = ChronoUnit.DAYS.between(currentDate, nextServiceDate);</span>
+<span class="nc" id="L242">        planVehicle.setStatus(determineStatus(plan, daysBetween));</span>
+<span class="nc" id="L243">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L244">    }</span>
+
+    private MaintenanceStatus determineStatus(Plan plan, long executeCounter) {
+<span class="nc bnc" id="L247" title="All 4 branches missed.">        if (executeCounter &lt;= plan.getTolerance() &amp;&amp; executeCounter &gt; 0) {</span>
+<span class="nc" id="L248">            return MaintenanceStatus.ATTENTION;</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        } else if (executeCounter &lt;= 0) {</span>
+<span class="nc" id="L250">            return MaintenanceStatus.LATE;</span>
+        } else {
+<span class="nc" id="L252">            return MaintenanceStatus.ON_TIME;</span>
+        }
+    }
+
+    private MaintenanceStatus determineStatus(Plan plan, BigDecimal executeCounter) {
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        if (executeCounter.compareTo(new BigDecimal(plan.getTolerance())) &lt;= 0</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                &amp;&amp; executeCounter.compareTo(BigDecimal.ZERO) &gt; 0) {</span>
+<span class="nc" id="L259">            return MaintenanceStatus.ATTENTION;</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        } else if (executeCounter.compareTo(BigDecimal.ZERO) &lt;= 0) {</span>
+<span class="nc" id="L261">            return MaintenanceStatus.LATE;</span>
+        } else {
+<span class="nc" id="L263">            return MaintenanceStatus.ON_TIME;</span>
+        }
+    }
+
+    @EventListener
+    @Transactional
+    public void onFuelingSynced(FuelingSyncedEvent event) {
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        for (List&lt;Long&gt; vehicles : event.getVehicleIds()) {</span>
+<span class="nc" id="L271">            List&lt;PlanVehicleProjection&gt; projection = planVehicleRepository.searchPlansByVehicleId(vehicles.get(0),</span>
+<span class="nc" id="L272">                    vehicles.get(1));</span>
+<span class="nc bnc" id="L273" title="All 4 branches missed.">            if (projection != null &amp;&amp; projection.size() != 0)</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">                for (PlanVehicleProjection p : projection) {</span>
+<span class="nc" id="L275">                    Integer recurrenceType = Integer.parseInt(p.getRecurrenceType().toString());</span>
+<span class="nc bnc" id="L276" title="All 4 branches missed.">                    switch (recurrenceType) {</span>
+                        case 0:
+<span class="nc" id="L278">                            checkOdometerPlan(p);</span>
+<span class="nc" id="L279">                            break;</span>
+
+                        case 1:
+<span class="nc" id="L282">                            checkHourmeterPlan(p);</span>
+
+                        case 2:
+<span class="nc" id="L285">                            checkTimePlan(p);</span>
+                        default:
+                            break;
+                    }
+<span class="nc" id="L289">                }</span>
+
+<span class="nc" id="L291">        }</span>
+<span class="nc" id="L292">    }</span>
+
+    private void checkTimePlan(PlanVehicleProjection projection) {
+<span class="nc" id="L295">        PlanVehiclePK pk = new PlanVehiclePK(planRepository.findById(projection.getPlanId()).get(),</span>
+<span class="nc" id="L296">                vehicleRepository.searchById(projection.getExternalId(), projection.getClientId()).get());</span>
+<span class="nc" id="L297">        PlanVehicle planVehicle = planVehicleRepository.findById(pk).get();</span>
+<span class="nc" id="L298">        LocalDate currentDate = LocalDate.now();</span>
+<span class="nc" id="L299">        LocalDate dueDate = projection.getNextServiceDate();</span>
+<span class="nc" id="L300">        long daysBetween = ChronoUnit.DAYS.between(currentDate, dueDate);</span>
+<span class="nc" id="L301">        planVehicle.setStatus(determineStatus(planRepository.findById(projection.getPlanId()).get(), daysBetween));</span>
+<span class="nc" id="L302">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L303">    }</span>
+
+    private void checkHourmeterPlan(PlanVehicleProjection projection) {
+<span class="nc" id="L306">        PlanVehiclePK pk = new PlanVehiclePK(planRepository.findById(projection.getPlanId()).get(),</span>
+<span class="nc" id="L307">                vehicleRepository.searchById(projection.getExternalId(), projection.getClientId()).get());</span>
+<span class="nc" id="L308">        PlanVehicle planVehicle = planVehicleRepository.findById(pk).get();</span>
+<span class="nc" id="L309">        BigDecimal executionCounter = projection.getNextServiceHourmeter().subtract(projection.getCurrentHourmeter());</span>
+<span class="nc" id="L310">        planVehicle.setStatus(determineStatus(planRepository.findById(projection.getPlanId()).get(), executionCounter));</span>
+<span class="nc" id="L311">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L312">    }</span>
+
+    private void checkOdometerPlan(PlanVehicleProjection projection) {
+<span class="nc" id="L315">        PlanVehiclePK pk = new PlanVehiclePK(planRepository.findById(projection.getPlanId()).get(),</span>
+<span class="nc" id="L316">                vehicleRepository.searchById(projection.getExternalId(), projection.getClientId()).get());</span>
+<span class="nc" id="L317">        PlanVehicle planVehicle = planVehicleRepository.findById(pk).get();</span>
+
+<span class="nc" id="L319">        long executionCounter = projection.getNextServiceOdometer() - projection.getCurrentOdometer();</span>
+<span class="nc" id="L320">        planVehicle.setStatus(determineStatus(planRepository.findById(projection.getPlanId()).get(), executionCounter));</span>
+<span class="nc" id="L321">        planVehicleRepository.save(planVehicle);</span>
+<span class="nc" id="L322">    }</span>
+
+    @Transactional(readOnly = true)
+    public List&lt;PlanVehicleProjection&gt; dashobard() {
+<span class="nc" id="L326">        List&lt;PlanVehicleProjection&gt; result = planVehicleRepository.dashoardList(authService.getClientId());</span>
+<span class="nc" id="L327">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

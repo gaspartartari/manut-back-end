@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "cors.origins",
+    "type": "java.lang.String",
+    "description": "A description for 'cors.origins'"
+  },
+  {
+    "name": "url.cta.inform.sync",
+    "type": "java.lang.String",
+    "description": "A description for 'url.cta.inform.sync'"
+  }
+]}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.manut.api.services</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package com.manut.api.services;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.manut.api.entities.User;
+import com.manut.api.projections.ClientProjection;
+import com.manut.api.repositories.UserRepository;
+import com.manut.api.services.exceptions.ClientNotFoundException;
+import com.manut.api.services.exceptions.ForbiddenException;
+import com.manut.api.utils.CustomUserUtil;
+
+@Service
+<span class="fc" id="L16">public class AuthService {</span>
+
+<span class="fc" id="L18">    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);</span>
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CustomUserUtil customUserUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void validateClient(Long clientId) {
+<span class="nc" id="L30">        User user = userService.authenticated();</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (user.getClient().getId() != clientId) {</span>
+<span class="nc" id="L32">            throw new ForbiddenException(&quot;Unauthorized&quot;);</span>
+        }
+<span class="nc" id="L34">    }</span>
+
+    public Long getClientId() {
+        try {
+<span class="nc" id="L38">            String username = customUserUtil.getLoggedUser();</span>
+<span class="nc" id="L39">            ClientProjection proj = userRepository.findClientIdByUserEmail(username);</span>
+<span class="nc" id="L40">            Long clientId = proj.getId();</span>
+<span class="nc" id="L41">            return clientId;</span>
+<span class="nc" id="L42">        } catch (Exception e) {</span>
+<span class="nc" id="L43">            logger.error(&quot;Problem in the getClientId method from AuthService class&quot;, e);</span>
+<span class="nc" id="L44">            throw new ClientNotFoundException(&quot;Client not found for logged user&quot;);</span>
+        }
+    
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
